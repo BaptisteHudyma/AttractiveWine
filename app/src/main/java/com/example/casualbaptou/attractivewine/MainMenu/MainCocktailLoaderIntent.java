@@ -1,10 +1,12 @@
-package com.example.casualbaptou.attractivewine;
+package com.example.casualbaptou.attractivewine.MainMenu;
 
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+
+import com.example.casualbaptou.attractivewine.URLRefs;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -19,7 +21,7 @@ import static android.content.ContentValues.TAG;
 
 public class MainCocktailLoaderIntent extends IntentService {
 
-    private static final String ACTION_get_cocktail_API = "com.example.utilisateur.attractivewine2.action.Beers";//"com.example.casualbaptou.attractivewine.action.cocktails";
+    private static final String ACTION_get_cocktail_API = "com.example.casualbaptou.attractivewine.action.cocktails";
 
     public MainCocktailLoaderIntent() {
         super("MainCocktailLoaderIntent");
@@ -35,7 +37,6 @@ public class MainCocktailLoaderIntent extends IntentService {
         {
             e.printStackTrace();
         }
-
     }
 
 

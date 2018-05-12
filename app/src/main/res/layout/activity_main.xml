@@ -5,12 +5,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainMenu.MainActivity">
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cocktail list"
+        android:text="@string/cocktail_list"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
         android:id="@+id/CocktailList"
@@ -18,7 +18,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Random pick"
+        android:text="@string/random_pick"
         android:layout_below="@+id/CocktailList"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
@@ -27,7 +27,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Favorited"
+        android:text="@string/favorite"
         android:layout_below="@+id/Random"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"

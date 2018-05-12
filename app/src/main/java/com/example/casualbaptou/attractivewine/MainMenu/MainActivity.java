@@ -1,4 +1,4 @@
-package com.example.casualbaptou.attractivewine;
+package com.example.casualbaptou.attractivewine.MainMenu;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,6 +10,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.casualbaptou.attractivewine.CocktailDisplayMenu.CocktailDisplayActivity;
+import com.example.casualbaptou.attractivewine.R;
+import com.example.casualbaptou.attractivewine.URLRefs;
 
 import static android.content.ContentValues.TAG;
 
@@ -55,10 +59,12 @@ public class MainActivity extends AppCompatActivity {
         Button favoritedCocktails = findViewById(R.id.Favorite);
 
         displayCocktailList.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            Log.i(TAG,"display cocktail list pressed");
-                                        }
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG,"display cocktail list pressed");
+                Intent cocktailListDisplay = new Intent(mainContext, CocktailDisplayActivity.class);
+                startActivity(cocktailListDisplay);
+            }
         });
 
         pickRandomCocktail.setOnClickListener(new View.OnClickListener() {

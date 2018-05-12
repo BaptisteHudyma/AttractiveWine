@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">AttractiveWine</string>
+    <string name="cocktail_list">Cocktail list</string>
+    <string name="random_pick">Random pick</string>
+    <string name="favorite">Favorite</string>
+    <string name="cocktail_name">Cocktail name</string>
 </resources>

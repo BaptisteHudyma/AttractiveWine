@@ -1,8 +1,9 @@
 package com.example.casualbaptou.attractivewine;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
+
+import com.example.casualbaptou.attractivewine.CocktailDisplayMenu.DisplayerContainer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -11,7 +12,8 @@ import org.json.JSONObject;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
+import java.util.ArrayList;
+import java.util.List;
 import static android.content.ContentValues.TAG;
 
 public class URLRefs{
@@ -32,20 +34,39 @@ public class URLRefs{
                                     , "random.php" };   //11//get a random cocktail
 
 
-    public void displayCocktails(String fileName, Context mC){
+
+    public List<DisplayerContainer> getAllCocktailNames(Context thisCOntext){
+        List<DisplayerContainer> allNames = new ArrayList<>();
+        allNames.addAll(displayCocktails("0cocktailArray.json", thisCOntext));
+        allNames.addAll(displayCocktails("1cocktailArray.json", thisCOntext));
+        allNames.addAll(displayCocktails("2cocktailArray.json", thisCOntext));
+
+        //TODO : sort the names
+        //String[] cocktailNames = new String[allNames.size()];
+        //return allNames.toArray(cocktailNames);
+        return allNames;
+    }
+
+    public List<DisplayerContainer> displayCocktails(String fileName, Context mC){
         String jsonFile = loadJSON( fileName, mC );
+        List<DisplayerContainer> thoseNames = new ArrayList<>();
         try{
             JSONObject obj = new JSONObject(jsonFile);
             JSONArray m_jArry = obj.getJSONArray("drinks");
             for (int i = 0; i < m_jArry.length(); i++) {
                 JSONObject JsStrinf = m_jArry.getJSONObject(i);
-                Log.d("Details-->", i + " " + JsStrinf.getString("strDrink"));
 
+                DisplayerContainer DP = new DisplayerContainer();
+                DP.setCocktailName(JsStrinf.getString("strDrink"));
+                DP.setID(JsStrinf.getString("idDrink"));
+                DP.setImageLink(JsStrinf.getString("strDrinkThumb"));
+                thoseNames.add(DP);
             }
         }
         catch(JSONException e){
             e.printStackTrace();
         }
+        return thoseNames;
     }
 
     public String loadJSON(String fileName, Context mC) {
@@ -64,5 +85,9 @@ public class URLRefs{
         }
         return json;
     }
+
+    /*private List<DisplayerContainer> sortDispContainerList(){
+
+    }*/
 
 }
