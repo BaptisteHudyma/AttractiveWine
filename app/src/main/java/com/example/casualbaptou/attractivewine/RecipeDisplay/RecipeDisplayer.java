@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.ArrayMap;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,6 +46,21 @@ public class RecipeDisplayer extends AppCompatActivity {
         setContentView(R.layout.activity_recipe_displayer);
         cocktailID = getIntent().getStringExtra("EXTRA_cocktail_ID");
         startCocktailAPIreading();
+
+        Button reroolRandom = findViewById(R.id.rerollButton);
+        if(cocktailID.length()<1)
+            reroolRandom.setVisibility(View.VISIBLE);
+        else
+            reroolRandom.setVisibility(View.INVISIBLE);
+
+
+        reroolRandom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG,"pick random pressed");
+                startCocktailAPIreading();
+            }
+        });
     }
 
 
@@ -66,6 +83,9 @@ public class RecipeDisplayer extends AppCompatActivity {
             TextView mainRecipe = findViewById(R.id.recipe);
 
             cocktailRecipeTemplate cocktailRecipe = setRecipeView(recipeFile);
+            if(cocktailRecipe == null)
+                return;
+
             cocktailTitle.setText( cocktailRecipe.getName() );
             mainRecipe.setText(cocktailRecipe.getMainRecipe() );
             Picasso.get().load(cocktailRecipe.getImageLink()).into(cocktailthumb);

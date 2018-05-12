@@ -7,17 +7,18 @@
     tools:context=".CocktailDisplayMenu.CocktailDisplayActivity">
 
     <TextView
+        android:id="@+id/cocktailsLength"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Number of cocktails found "
-        android:id="@+id/cocktailsLength"/>
+        android:textAlignment="center"
+        android:text="Number of cocktails found " />
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/cocktailListDisp"
         android:layout_below="@+id/cocktailsLength"
         android:layout_marginTop="9dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/cocktailListDisp"
         android:scrollbars="vertical"
         />
 

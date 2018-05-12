@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import com.example.casualbaptou.attractivewine.CocktailDisplayMenu.CocktailDisplayActivity;
 import com.example.casualbaptou.attractivewine.R;
+import com.example.casualbaptou.attractivewine.RecipeDisplay.RecipeDisplayer;
 
 import static android.content.ContentValues.TAG;
 
@@ -65,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.i(TAG,"pick random pressed");
+                Intent intent = new Intent(mainContext, RecipeDisplayer.class);
+                intent.putExtra("EXTRA_cocktail_ID", "");
+                startActivity(intent);
             }
         });
 

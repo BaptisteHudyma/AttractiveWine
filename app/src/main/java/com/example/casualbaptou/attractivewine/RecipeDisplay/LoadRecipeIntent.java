@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.widget.Button;
 
+import com.example.casualbaptou.attractivewine.MainMenu.MainActivity;
 import com.example.casualbaptou.attractivewine.URLRefs;
 
 import java.io.IOException;
@@ -45,7 +47,14 @@ public class LoadRecipeIntent extends IntentService {
         if (intent != null) {
             final String action = intent.getAction();
             if (ACTION_get_cocktail_API.equals(action)) {
-                RecipeDisplayer.recipeFile = convertStreamToString(getinputStream( URLRefs.URLbase + URLRefs.Refs[2] + ID ));
+                String url;
+
+                if(ID.length()<1)
+                    url = URLRefs.URLbase + URLRefs.Refs[11];
+                else
+                    url = URLRefs.URLbase + URLRefs.Refs[2] + ID;
+
+                RecipeDisplayer.recipeFile = convertStreamToString(getinputStream( url ));
                 LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(RecipeDisplayer.COCKTAILS_RECIPE_FINISHED));
             }
         }
