@@ -23,6 +23,7 @@ public class MainCocktailLoaderIntent extends IntentService {
 
     private static final String ACTION_get_cocktail_API = "com.example.casualbaptou.attractivewine.action.cocktails";
 
+
     public MainCocktailLoaderIntent() {
         super("MainCocktailLoaderIntent");
     }
@@ -39,7 +40,6 @@ public class MainCocktailLoaderIntent extends IntentService {
         }
     }
 
-
     @Override
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
@@ -53,27 +53,43 @@ public class MainCocktailLoaderIntent extends IntentService {
 
     private void saveCocktailList() {
         try{
+            URL url = new URL( URLRefs.URLbase + URLRefs.Refs[8] );
+            Log.i(TAG, URLRefs.URLbase + URLRefs.Refs[8]);
+            InputStream IS = saveCocktailAtURL(url, 100);
+
+
+
             for(int i=0; i<3; i++)
             {
-                URL url = new URL( URLRefs.URLbase + URLRefs.Refs[4+i] );
+                url = new URL( URLRefs.URLbase + URLRefs.Refs[4+i] );
                 Log.i(TAG, URLRefs.URLbase + URLRefs.Refs[4+i]);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.connect();
-                if(HttpURLConnection.HTTP_OK == conn.getResponseCode()){
-                    File f = new File(getCacheDir(), i+"cocktailArray.json");
-                    copyInputStreamToFile(conn.getInputStream(), f );
-                    Log.i(TAG,  "Cocktail list " + (i+1) + " json downloaded");
-                }
-                else
-                    Log.e(TAG, "Can't access API");
+                saveCocktailAtURL(url, i);
+
             }
         }
         catch(MalformedURLException e){
             e.printStackTrace();
         }
+    }
+
+    private InputStream saveCocktailAtURL(URL url, int index) {
+        try
+        {
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.connect();
+            if (HttpURLConnection.HTTP_OK == conn.getResponseCode()) {
+                File f = new File(getCacheDir(), index + "cocktailArray.json");
+                InputStream IS = conn.getInputStream();
+                copyInputStreamToFile(IS, f);
+                Log.i(TAG, "Cocktail list " + (index + 1) + " json downloaded");
+                return IS;
+            } else
+                Log.e(TAG, "Can't access API");
+        }
         catch (IOException e){
             e.printStackTrace();
         }
+        return null;
     }
 
     private void copyInputStreamToFile(InputStream in, File file)

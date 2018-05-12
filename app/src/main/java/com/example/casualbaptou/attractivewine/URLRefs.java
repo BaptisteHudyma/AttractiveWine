@@ -31,19 +31,25 @@ public class URLRefs{
                                     , "list.php?c="     //8 //get all categories
                                     , "list.php?i="     //9 //get all ingredients
                                     , "list.php?g="     //10//get all glass types
-                                    , "random.php" };   //11//get a random cocktail
+                                    , "random.php"      //11//get a random cocktail
+                                    };
 
+    public List<DisplayerContainer> allCocktails = new ArrayList<>();
 
+    public List<DisplayerContainer> getAllCocktailNames(Context thisContext){
+        if(allCocktails.size() > 10)
+            return allCocktails;
 
-    public List<DisplayerContainer> getAllCocktailNames(Context thisCOntext){
         List<DisplayerContainer> allNames = new ArrayList<>();
-        allNames.addAll(displayCocktails("0cocktailArray.json", thisCOntext));
-        allNames.addAll(displayCocktails("1cocktailArray.json", thisCOntext));
-        allNames.addAll(displayCocktails("2cocktailArray.json", thisCOntext));
+        allNames.addAll(displayCocktails("0cocktailArray.json", thisContext));
+        allNames.addAll(displayCocktails("1cocktailArray.json", thisContext));
+        allNames.addAll(displayCocktails("2cocktailArray.json", thisContext));
 
         //TODO : sort the names
         //String[] cocktailNames = new String[allNames.size()];
         //return allNames.toArray(cocktailNames);
+
+        allCocktails = allNames;
         return allNames;
     }
 
@@ -74,16 +80,27 @@ public class URLRefs{
         try {
             Log.i(TAG, mC.getCacheDir()+"/"+fileName);
             InputStream is = new FileInputStream(mC.getCacheDir()+"/"+fileName);
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
+            json = getJSONfromInputStream(is);
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
         }
         return json;
+    }
+
+    public String getJSONfromInputStream(InputStream is)
+    {
+        try {
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            return new String(buffer, "UTF-8");
+        }
+        catch( IOException e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /*private List<DisplayerContainer> sortDispContainerList(){

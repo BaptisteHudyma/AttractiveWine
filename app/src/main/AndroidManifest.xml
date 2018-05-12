@@ -12,6 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainMenu.MainActivity">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,8 +29,14 @@
         <service
             android:name=".MainMenu.MainCocktailLoaderIntent"
             android:exported="false" />
+        <service
+            android:name=".RecipeDisplay.LoadRecipeIntent"
+            android:exported="false"/>
 
-        <activity android:name=".CocktailDisplayMenu.CocktailDisplayActivity"></activity>
+        <activity android:name=".CocktailDisplayMenu.CocktailDisplayActivity" />
+        <activity android:name=".RecipeDisplay.RecipeDisplayer"></activity>
+
+
     </application>
 
 </manifest>

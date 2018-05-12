@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RecipeDisplay.RecipeDisplayer">
+
+    <TableRow
+        android:id="@+id/titlePic"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" >
+        <ImageView
+            android:id="@+id/cocktailImage"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            />
+
+        <TextView
+            android:id="@+id/main_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cocktail_name"
+            android:layout_toRightOf="@+id/cocktailImage"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textSize="30dp"
+            />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/ingredientTable"
+        android:layout_below="@+id/titlePic"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginVertical="20dp"
+        android:inputType="textMultiLine"
+        android:singleLine="false"
+        android:layout_marginLeft="10dp"
+        >
+
+        <TextView
+            android:id="@+id/quantities"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ingredients"
+            android:inputType="textMultiLine"
+            android:singleLine="false" />
+        <TextView
+            android:id="@+id/ingredients"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ingredients"
+            android:layout_toRightOf="@+id/quantities"
+            android:inputType="textMultiLine"
+            android:singleLine="false" />
+    </TableRow>
+
+
+    <TextView
+        android:id="@+id/recipe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/recipe"
+        android:layout_below="@+id/ingredientTable"
+        android:layout_marginVertical="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp" />
+
+</RelativeLayout>

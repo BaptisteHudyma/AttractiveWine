@@ -13,13 +13,13 @@ import android.widget.Button;
 
 import com.example.casualbaptou.attractivewine.CocktailDisplayMenu.CocktailDisplayActivity;
 import com.example.casualbaptou.attractivewine.R;
-import com.example.casualbaptou.attractivewine.URLRefs;
 
 import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity {
-    public static String COCKTAILS_UPDATE = "com.example.casualbaptou.attractivewine.update.cocktails";
+    public static String COCKTAILS_UPDATE = "com.example.casualbaptou.attractivewine.update.cocktailUpdates";
     public static Context mainContext;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startCocktailAPIreading(){
-        MainCocktailLoaderIntent.startActionGetCocktail(mainContext);
+        MainCocktailLoaderIntent.startActionGetCocktail(this);
         IntentFilter intentFilter = new IntentFilter(COCKTAILS_UPDATE);
         LocalBroadcastManager.getInstance(this).registerReceiver(new onCocktailAPIUpdate(),intentFilter);
     }
@@ -42,12 +42,6 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             Button displayCocktailList = findViewById(R.id.CocktailList);
             displayCocktailList.setActivated(true);
-            Log.i(TAG, "button set activeeeeeeeeeeeeeeeeeeeeeeee");
-
-            URLRefs urlRefs = new URLRefs();
-            urlRefs.displayCocktails("0cocktailArray.json", mainContext);
-            urlRefs.displayCocktails("1cocktailArray.json", mainContext);
-            urlRefs.displayCocktails("2cocktailArray.json", mainContext);
         }
     }
 

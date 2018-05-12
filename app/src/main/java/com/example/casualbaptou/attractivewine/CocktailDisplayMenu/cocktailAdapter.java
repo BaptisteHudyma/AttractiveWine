@@ -4,18 +4,24 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.casualbaptou.attractivewine.R;
+import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class cocktailAdapter extends RecyclerView.Adapter<cocktailAdapter.ViewHolder> {
+public class cocktailAdapter extends RecyclerView.Adapter<cocktailAdapter.ViewHolder> implements Filterable {
 
     private List<DisplayerContainer> cocktailDataset;
+    private List<DisplayerContainer> cocktailDatasetFiltered;
+    private CocktailAdapterListener listener;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder{
         public TextView cocktailName;
         public ImageView thumb;
 
@@ -23,11 +29,28 @@ public class cocktailAdapter extends RecyclerView.Adapter<cocktailAdapter.ViewHo
             super(v);
             cocktailName = v.findViewById(R.id.cocktailName);
             thumb = v.findViewById(R.id.cocktail_thumb);
+
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // send selected contact in callback
+                    listener.onCocktailSelected(cocktailDatasetFiltered.get(getAdapterPosition()));
+                }
+            });
         }
     }
 
-    public cocktailAdapter(List<DisplayerContainer> cocktailDataset) {
+    public cocktailAdapter(List<DisplayerContainer> cocktailDataset, CocktailAdapterListener listener) {
         this.cocktailDataset = cocktailDataset;
+        this.cocktailDatasetFiltered = cocktailDataset;
+        this.listener = listener;
+    }
+
+    public void listChange(List<DisplayerContainer> cocktailDataset)
+    {
+        this.cocktailDataset = cocktailDataset;
+        this.cocktailDatasetFiltered = cocktailDataset;
+        notifyDataSetChanged();
     }
 
     // Create new views (invoked by the layout manager)
@@ -45,16 +68,50 @@ public class cocktailAdapter extends RecyclerView.Adapter<cocktailAdapter.ViewHo
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-        DisplayerContainer DP = cocktailDataset.get(position);
+        DisplayerContainer DP = cocktailDatasetFiltered.get(position);
         holder.cocktailName.setText( DP.getCocktailName() );
-        //holder.thumb.setImageURI();
-
+        Picasso.get().load(DP.getImageLink()).into(holder.thumb);
     }
 
     @Override
     public int getItemCount() {
-        return cocktailDataset.size();
+        return cocktailDatasetFiltered.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    cocktailDatasetFiltered = cocktailDataset;
+                } else {
+                    List<DisplayerContainer> filteredList = new ArrayList<>();
+                    for (DisplayerContainer row : cocktailDataset) {
+                        if (row.getCocktailName().toLowerCase().contains(charString.toLowerCase()) || row.getID().contains(charSequence)) {
+                            filteredList.add(row);
+                        }
+                    }
+
+                    cocktailDatasetFiltered = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = cocktailDatasetFiltered;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                cocktailDatasetFiltered = (ArrayList<DisplayerContainer>) filterResults.values;
+                CocktailDisplayActivity.numberOfSelected.setText( cocktailDatasetFiltered.size() + " cocktails found");
+                notifyDataSetChanged();
+            }
+        };
+    }
+
+    public interface CocktailAdapterListener {
+        void onCocktailSelected(DisplayerContainer cocktail);
     }
 }
