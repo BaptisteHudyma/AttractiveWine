@@ -7,14 +7,13 @@ import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.ArrayMap;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.casualbaptou.attractivewine.MainMenu.MainCocktailLoaderIntent;
 import com.example.casualbaptou.attractivewine.R;
 import com.squareup.picasso.Picasso;
 
@@ -22,16 +21,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
 
 import static android.content.ContentValues.TAG;
 
@@ -76,7 +67,6 @@ public class RecipeDisplayer extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
 
             TextView cocktailTitle = findViewById(R.id.main_title);
-            TextView ingredients = findViewById(R.id.ingredients);
             TextView quantities = findViewById(R.id.quantities);
 
             ImageView cocktailthumb = findViewById(R.id.cocktailImage);
@@ -92,10 +82,7 @@ public class RecipeDisplayer extends AppCompatActivity {
             Picasso.get().load(cocktailRecipe.getImageLink()).into(cocktailthumb);
             lastModified.setText( cocktailRecipe.getLastTimeModified() );
 
-            doubleString formatIngredients = getFormatIngredients( cocktailRecipe.getIngredients() );
-
-            ingredients.setText(formatIngredients.A);
-            quantities.setText(formatIngredients.B);
+            quantities.setText(getFormatIngredients( cocktailRecipe.getIngredients() ));
         }
     }
 
@@ -126,20 +113,28 @@ public class RecipeDisplayer extends AppCompatActivity {
         return thisCocktail;
     }
 
-    private doubleString getFormatIngredients(List<doubleString> ingredientCouples)
+    private String getFormatIngredients(List<doubleString> ingredientCouples)
     {
-        doubleString finalIngredientRep = new doubleString("", "");
+        StringBuilder quan = new StringBuilder();
 
         for(doubleString entry : ingredientCouples) {
-            String ingredient = entry.A;
-            String measure = entry.B;
+            //B is quantity
+            //A is ingredient
+            if(entry.B.endsWith("\n"))
+            {
+                quan.append("- " + entry.A +" " + entry.B);
+            }
+            else
+            {
+                if(entry.B.endsWith(" "))
+                    quan.append("- " + entry.B + entry.A + "\n");
+                else
+                    quan.append("- " + entry.B + " " + entry.A + "\n");
+            }
 
-            finalIngredientRep.A += "\n" + ingredient;
-            finalIngredientRep.B += "\n" + measure;
-            //f(measure.length()>=1 && !measure.contains("of")  )
-            //    finalIngredientRep.B += " of";
+
         }
-        return finalIngredientRep;
+        return quan.toString();
     }
 
     private List<doubleString> getIngredients(JSONObject jsObj)

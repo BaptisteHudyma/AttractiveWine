@@ -5,9 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.widget.Button;
 
-import com.example.casualbaptou.attractivewine.MainMenu.MainActivity;
 import com.example.casualbaptou.attractivewine.URLRefs;
 
 import java.io.IOException;
@@ -49,9 +47,9 @@ public class LoadRecipeIntent extends IntentService {
             if (ACTION_get_cocktail_API.equals(action)) {
                 String url;
 
-                if(ID.length()<1)
+                if(ID.length()<1)   //Random pick
                     url = URLRefs.URLbase + URLRefs.Refs[11];
-                else
+                else                //chosen pick
                     url = URLRefs.URLbase + URLRefs.Refs[2] + ID;
 
                 RecipeDisplayer.recipeFile = convertStreamToString(getinputStream( url ));
@@ -83,8 +81,7 @@ public class LoadRecipeIntent extends IntentService {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.connect();
             if (HttpURLConnection.HTTP_OK == conn.getResponseCode()) {
-                InputStream IS = conn.getInputStream();
-                return IS;
+                return conn.getInputStream();
             } else
                 Log.e(TAG, "Can't access API");
         }

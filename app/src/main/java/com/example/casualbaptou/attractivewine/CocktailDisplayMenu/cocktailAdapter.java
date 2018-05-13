@@ -1,5 +1,6 @@
 package com.example.casualbaptou.attractivewine.CocktailDisplayMenu;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +26,7 @@ public class cocktailAdapter extends RecyclerView.Adapter<cocktailAdapter.ViewHo
         public TextView cocktailName;
         public ImageView thumb;
 
-        public ViewHolder(View v) {
+        private ViewHolder(View v) {
             super(v);
             cocktailName = v.findViewById(R.id.cocktailName);
             thumb = v.findViewById(R.id.cocktail_thumb);
@@ -46,28 +47,20 @@ public class cocktailAdapter extends RecyclerView.Adapter<cocktailAdapter.ViewHo
         this.listener = listener;
     }
 
-    public void listChange(List<DisplayerContainer> cocktailDataset)
-    {
-        this.cocktailDataset = cocktailDataset;
-        this.cocktailDatasetFiltered = cocktailDataset;
-        notifyDataSetChanged();
-    }
-
     // Create new views (invoked by the layout manager)
     @Override
-    public cocktailAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType) {
+    @NonNull
+    public cocktailAdapter.ViewHolder onCreateViewHolder( @NonNull ViewGroup parent, int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.cocktail_row_container, parent, false);
 
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
+        return new ViewHolder(v);
     }
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder( @NonNull ViewHolder holder, int position) {
         DisplayerContainer DP = cocktailDatasetFiltered.get(position);
         holder.cocktailName.setText( DP.getCocktailName() );
         Picasso.get().load(DP.getImageLink()).into(holder.thumb);
@@ -105,7 +98,9 @@ public class cocktailAdapter extends RecyclerView.Adapter<cocktailAdapter.ViewHo
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 cocktailDatasetFiltered = (ArrayList<DisplayerContainer>) filterResults.values;
-                CocktailDisplayActivity.numberOfSelected.setText( cocktailDatasetFiltered.size() + " cocktails found");
+
+                String placeHolder = cocktailDatasetFiltered.size() + " cocktails found";
+                CocktailDisplayActivity.numberOfSelected.setText( placeHolder );
                 notifyDataSetChanged();
             }
         };

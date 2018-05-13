@@ -10,11 +10,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.FileInputStream;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+
+import java.util.Comparator;
 import java.util.List;
 import static android.content.ContentValues.TAG;
+
 
 public class URLRefs{
     public static String URLbase = "https://www.thecocktaildb.com/api/json/v1/1/";
@@ -23,9 +27,9 @@ public class URLRefs{
                                     , "lookup.php?i="   //2 //+id : return a precise recipe
                                     , "filter.php?i="   //3 //+ingredient : return all cocktails containing those ingredients
 
-                                    , "filter.php?a=Alcoholic"          //4 //+category : return all cocktails in this category
-                                    , "filter.php?a=Non_Alcoholic"      //5 //+category : return all cocktails in this category
-                                    , "filter.php?a=Optional_alcohol"   //6 //+category : return all cocktails in this category
+                                    , "filter.php?a=Alcoholic"          //4 //return all cocktails in this category
+                                    , "filter.php?a=Non_Alcoholic"      //5 //return all cocktails in this category
+                                    , "filter.php?a=Optional_alcohol"   //6 //return all cocktails in this category
 
                                     , "filter.php?c="   //7 //+Category : return all the cocktails in this category
                                     , "list.php?c="     //8 //get all categories
@@ -33,31 +37,58 @@ public class URLRefs{
                                     , "list.php?g="     //10//get all glass types
                                     , "random.php"      //11//get a random cocktail
                                     };
+    public static String []Categories = {
+            "Ordinary_Drink",
+            "Cocktail",
+            "Milk%20/%20Float%20/%20Shake",
+            "Other/Unknown",
+            "Cocoa",
+            "Shot",
+            "Coffee%20/%20Tea",
+            "Homemade_Liqueur",
+            "Punch%20/%20Party_Drink",
+            "Beer",
+            "Soft_Drink%20/%20Soda"
+    };
 
-    public List<DisplayerContainer> allCocktails = new ArrayList<>();
+    public static String []FileNames = {
+            "ordinarydrink",
+            "cocktail",
+            "milkFloatShake",
+            "otherUnknown",
+            "cocoa",
+            "shot",
+            "coffeeTea",
+            "homemadeLiqueur",
+            "punchPartyDrink",
+            "beer",
+            "softDrinkSoda"
+    };
+
+    private List<DisplayerContainer> allCocktails = new ArrayList<>();
 
     public List<DisplayerContainer> getAllCocktailNames(Context thisContext){
-        if(allCocktails.size() > 10)
-            return allCocktails;
-
         List<DisplayerContainer> allNames = new ArrayList<>();
-        allNames.addAll(displayCocktails("0cocktailArray.json", thisContext));
-        allNames.addAll(displayCocktails("1cocktailArray.json", thisContext));
-        allNames.addAll(displayCocktails("2cocktailArray.json", thisContext));
+        for(int i = 0; i <  Categories.length; i++)
+        {
+            String fileName = thisContext.getCacheDir() + "/" + FileNames[i] + ".json";
+            Log.i(TAG, FileNames[i] + ".json");
+            allNames.addAll(displayCocktails(fileName));
+        }
 
-        //TODO : sort the names
-        //String[] cocktailNames = new String[allNames.size()];
-        //return allNames.toArray(cocktailNames);
+        allNames = sortDispContainerList(allNames);
 
-        allCocktails = allNames;
+        if(allNames.size() != allCocktails.size())
+            allCocktails = allNames;
         return allNames;
     }
 
-    public List<DisplayerContainer> displayCocktails(String fileName, Context mC){
-        String jsonFile = loadJSON( fileName, mC );
+    private List<DisplayerContainer> displayCocktails(String fileName){
+
         List<DisplayerContainer> thoseNames = new ArrayList<>();
+        String jsonFile = loadJSON( fileName );
         try{
-            JSONObject obj = new JSONObject(jsonFile);
+            JSONObject obj = new JSONObject(   jsonFile  );
             JSONArray m_jArry = obj.getJSONArray("drinks");
             for (int i = 0; i < m_jArry.length(); i++) {
                 JSONObject JsStrinf = m_jArry.getJSONObject(i);
@@ -75,36 +106,30 @@ public class URLRefs{
         return thoseNames;
     }
 
-    public String loadJSON(String fileName, Context mC) {
-        String json = null;
+    private String loadJSON(String fileName) {
+        String json;
         try {
-            Log.i(TAG, mC.getCacheDir()+"/"+fileName);
-            InputStream is = new FileInputStream(mC.getCacheDir()+"/"+fileName);
-            json = getJSONfromInputStream(is);
+            InputStream is = new FileInputStream( fileName );
+            byte[] buffer = new byte[is.available()];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
         }
         return json;
+}
+
+    private List<DisplayerContainer> sortDispContainerList(List<DisplayerContainer> destination){
+        destination.sort(new Comparator<DisplayerContainer>() {
+            @Override
+            public int compare(DisplayerContainer cocktail1, DisplayerContainer cocktail2)
+            {
+                return  cocktail1.getCocktailName().compareTo(cocktail2.getCocktailName());
+            }
+        });
+        return destination;
     }
-
-    public String getJSONfromInputStream(InputStream is)
-    {
-        try {
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            return new String(buffer, "UTF-8");
-        }
-        catch( IOException e){
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /*private List<DisplayerContainer> sortDispContainerList(){
-
-    }*/
 
 }

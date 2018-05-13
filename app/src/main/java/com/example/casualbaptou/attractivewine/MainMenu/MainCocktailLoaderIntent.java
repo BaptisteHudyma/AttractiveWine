@@ -45,26 +45,19 @@ public class MainCocktailLoaderIntent extends IntentService {
         if (intent != null) {
             final String action = intent.getAction();
             if (ACTION_get_cocktail_API.equals(action)) {
-                saveCocktailList();
+                saveCocktailLists();
                 LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(MainActivity.COCKTAILS_UPDATE));
             }
         }
     }
 
-    private void saveCocktailList() {
+    private void saveCocktailLists() {
         try{
-            URL url = new URL( URLRefs.URLbase + URLRefs.Refs[8] );
-            Log.i(TAG, URLRefs.URLbase + URLRefs.Refs[8]);
-            InputStream IS = saveCocktailAtURL(url, 100);
-
-
-
-            for(int i=0; i<3; i++)
+            for(int i=0; i<URLRefs.Categories.length; i++)
             {
-                url = new URL( URLRefs.URLbase + URLRefs.Refs[4+i] );
-                Log.i(TAG, URLRefs.URLbase + URLRefs.Refs[4+i]);
-                saveCocktailAtURL(url, i);
-
+                URL url = new URL( URLRefs.URLbase + URLRefs.Refs[7] + URLRefs.Categories[i] );
+                Log.i(TAG, url.toString());
+                saveCocktailAtURL(url, URLRefs.FileNames[i] + ".json");
             }
         }
         catch(MalformedURLException e){
@@ -72,34 +65,33 @@ public class MainCocktailLoaderIntent extends IntentService {
         }
     }
 
-    private InputStream saveCocktailAtURL(URL url, int index) {
+    private void saveCocktailAtURL(URL url, String fileName) {
         try
         {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setDoOutput(true);
             conn.connect();
+
             if (HttpURLConnection.HTTP_OK == conn.getResponseCode()) {
-                File f = new File(getCacheDir(), index + "cocktailArray.json");
-                InputStream IS = conn.getInputStream();
-                copyInputStreamToFile(IS, f);
-                Log.i(TAG, "Cocktail list " + (index + 1) + " json downloaded");
-                return IS;
-            } else
-                Log.e(TAG, "Can't access API");
+                File f = new File(getCacheDir(), fileName);
+                copyInputStreamToFile(conn.getInputStream(), f );
+                Log.i(TAG,  fileName + " cocktail list json downloaded");
+            }
         }
         catch (IOException e){
             e.printStackTrace();
         }
-        return null;
     }
 
-    private void copyInputStreamToFile(InputStream in, File file)
-    {   //puts the json in a file
+
+    private void copyInputStreamToFile(InputStream in, File file){
         try {
             OutputStream out = new FileOutputStream(file, true);
-            byte[] buf = new byte[1024];
+            byte[] buf = new byte[in.available()];
             int lenght;
             while ((lenght = in.read(buf)) > 0) {
                 out.write(buf, 0, lenght);
+                Log.i(TAG, buf.toString());
             }
             out.close();
             in.close();
@@ -107,5 +99,4 @@ public class MainCocktailLoaderIntent extends IntentService {
             e.printStackTrace();
         }
     }
-
 }

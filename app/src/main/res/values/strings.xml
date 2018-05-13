@@ -9,4 +9,5 @@
     <string name="recipe">this cocktail recipe</string>
     <string name="ingredients">the ingredients to make the cocktail</string>
     <string name="reroll_rand">Random</string>
+    <string name="cocktail_length">cocktail selected</string>
 </resources>

@@ -3,14 +3,14 @@ package com.example.casualbaptou.attractivewine.RecipeDisplay;
 import java.util.List;
 
 public class cocktailRecipeTemplate {
-    String name;
-    String category;
-    String mainRecipe;
-    List<doubleString> ingredients;
-    String imageLink;
-    String lastTimeModified;
-    String glassType;
-    String alcoholic;
+    private String name;
+    private String category;
+    private String mainRecipe;
+    private List<doubleString> ingredients;
+    private String imageLink;
+    private String lastTimeModified;
+    private String glassType;
+    private String alcoholic;
 
 
     public List<doubleString> getIngredients() {
