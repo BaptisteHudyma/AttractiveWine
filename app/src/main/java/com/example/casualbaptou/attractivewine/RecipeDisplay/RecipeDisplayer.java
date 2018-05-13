@@ -68,6 +68,7 @@ public class RecipeDisplayer extends AppCompatActivity {
 
             TextView cocktailTitle = findViewById(R.id.main_title);
             TextView quantities = findViewById(R.id.quantities);
+            TextView category = findViewById(R.id.category);
 
             ImageView cocktailthumb = findViewById(R.id.cocktailImage);
             TextView mainRecipe = findViewById(R.id.recipe);
@@ -79,6 +80,8 @@ public class RecipeDisplayer extends AppCompatActivity {
 
             cocktailTitle.setText( cocktailRecipe.getName() );
             mainRecipe.setText(cocktailRecipe.getMainRecipe() );
+            category.setText(cocktailRecipe.getCategory());
+
             Picasso.get().load(cocktailRecipe.getImageLink()).into(cocktailthumb);
             lastModified.setText( cocktailRecipe.getLastTimeModified() );
 

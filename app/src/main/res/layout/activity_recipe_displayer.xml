@@ -5,6 +5,16 @@
     android:layout_height="match_parent"
     tools:context=".RecipeDisplay.RecipeDisplayer">
 
+    <TextView
+        android:id="@+id/lastModified"
+        android:text="truuuuuuc"
+        android:layout_width="wrap_content"
+        android:layout_height="12sp"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="12sp"
+        android:textSize="11sp"
+        />
+
     <TableRow
         android:id="@+id/titlePic"
         android:layout_height="wrap_content"
@@ -28,22 +38,24 @@
             android:textStyle="bold"
             android:textSize="30sp"
             />
-
-        <TextView
-            android:id="@+id/lastModified"
-            android:layout_width="wrap_content"
-            android:layout_height="13sp"
-            android:layout_gravity="top"
-            android:textSize="12sp"
-            />
     </TableRow>
+
+    <TextView
+        android:id="@+id/category"
+        android:layout_width="wrap_content"
+        android:layout_height="15sp"
+        android:textSize="12sp"
+        android:layout_below="@+id/titlePic"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="12sp"
+        />
 
     <TableRow
         android:id="@+id/ingredientTable"
         android:layout_below="@+id/titlePic"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_marginTop="20sp"
+        android:layout_marginTop="10sp"
         android:inputType="textMultiLine"
         android:singleLine="false"
         android:layout_marginStart="12sp"
@@ -53,8 +65,11 @@
             android:id="@+id/quantities"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="0sp"
             android:text="@string/ingredients"
-            android:singleLine="false" />
+            android:singleLine="false"
+            android:layout_marginTop="20sp"
+            />
     </TableRow>
 
 
