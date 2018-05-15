@@ -1,106 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".recipe_display.RecipeDisplayer">
 
-    <TextView
-        android:id="@+id/lastModified"
-        android:layout_width="wrap_content"
-        android:layout_height="13sp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="12sp"
-        android:textSize="12sp"
-        />
-
-    <TableRow
-        android:id="@+id/titlePic"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent" >
-        <ImageView
-            android:id="@+id/cocktailImage"
-            android:layout_width="110sp"
-            android:layout_height="110sp"
-            android:layout_marginStart="12sp"
-            android:layout_marginTop="13sp"
-            android:contentDescription="@string/cocktail_image"
-            />
-
-        <TextView
-            android:id="@+id/main_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cocktail_name"
-            android:gravity="start"
-            android:layout_marginStart="10sp"
-            android:layout_gravity="center"
-            android:textStyle="bold"
-            android:textSize="30sp"
-            />
-    </TableRow>
-
-    <TextView
-        android:id="@+id/category"
-        android:layout_width="wrap_content"
-        android:layout_height="15sp"
-        android:textSize="12sp"
-        android:layout_below="@+id/titlePic"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="12sp"
-        />
-
-    <TableRow
-        android:id="@+id/ingredientTable"
-        android:layout_below="@+id/titlePic"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:layout_marginTop="10sp"
-        android:inputType="textMultiLine"
-        android:singleLine="false"
-        android:layout_marginStart="12sp"
-        >
-
-        <TextView
-            android:id="@+id/quantities"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="0sp"
-            android:text="@string/ingredients"
-            android:singleLine="false"
-            android:layout_marginTop="20sp"
-            />
-    </TableRow>
-
-
-    <TextView
-        android:id="@+id/recipe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/recipe"
-        android:layout_below="@+id/ingredientTable"
-        android:layout_marginTop="30sp"
-        android:layout_marginStart="12sp" />
-
-    <Button
-        android:id="@+id/rerollButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:text="@string/reroll_rand"/>
-
     <RelativeLayout
-        android:id="@+id/loading_panel"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:background="#FFF"
-        android:alpha="0">
-        <ProgressBar
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/lastModified"
+            android:layout_width="wrap_content"
+            android:layout_height="13sp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="12sp"
+            android:textSize="12sp"
+            />
+
+        <TableRow
+            android:id="@+id/titlePic"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent" >
+            <ImageView
+                android:id="@+id/cocktailImage"
+                android:layout_width="110sp"
+                android:layout_height="110sp"
+                android:layout_marginStart="12sp"
+                android:layout_marginTop="13sp"
+                android:contentDescription="@string/cocktail_image"
+                />
+
+            <TextView
+                android:id="@+id/main_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cocktail_name"
+                android:gravity="start"
+                android:layout_marginStart="10sp"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:textSize="30sp"
+                />
+        </TableRow>
+
+        <TextView
+            android:id="@+id/category"
+            android:layout_width="wrap_content"
+            android:layout_height="15sp"
+            android:textSize="12sp"
+            android:layout_below="@+id/titlePic"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="12sp"
+            />
+
+        <TableRow
+            android:id="@+id/ingredientTable"
+            android:layout_below="@+id/titlePic"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10sp"
+            android:inputType="textMultiLine"
+            android:singleLine="false"
+            android:layout_marginStart="12sp"
+            >
+
+            <TextView
+                android:id="@+id/quantities"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0sp"
+                android:text="@string/ingredients"
+                android:singleLine="false"
+                android:layout_marginTop="20sp"
+                />
+        </TableRow>
+
+
+        <TextView
+            android:id="@+id/recipe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminate="true"/>
+            android:text="@string/recipe"
+            android:layout_below="@+id/ingredientTable"
+            android:layout_marginTop="30sp"
+            android:layout_marginStart="12sp"
+            android:layout_marginBottom="50sp"/>
+
+        <Button
+            android:id="@+id/rerollButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:text="@string/reroll_rand" />
+
+        <RelativeLayout
+            android:id="@+id/loading_panel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="#FFF"
+            android:alpha="0">
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"/>
+        </RelativeLayout>
+
     </RelativeLayout>
 
-</RelativeLayout>
+
+</ScrollView>

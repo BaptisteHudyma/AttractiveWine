@@ -96,7 +96,7 @@ public class RecipeDisplayer extends AppCompatActivity {
                 return;
 
             cocktailTitle.setText( cocktailRecipe.getName() );
-            mainRecipe.setText(cocktailRecipe.getMainRecipe() );
+            mainRecipe.setText( buildCoherentRecipeFormat(cocktailRecipe.getMainRecipe()) );
             category.setText(cocktailRecipe.getCategory());
 
             RelativeLayout RL = findViewById(R.id.loading_panel);
@@ -111,6 +111,34 @@ public class RecipeDisplayer extends AppCompatActivity {
 
             quantities.setText(getFormatIngredients( cocktailRecipe.getIngredients() ));
         }
+    }
+
+    private String buildCoherentRecipeFormat(String recipe){
+        StringBuilder mainRec = new StringBuilder( recipe );
+        int index = 1;
+        while((index = mainRec.indexOf(".", index)) > 0 && index < mainRec.length()-2)
+        {
+            if(mainRec.charAt(index+1) == '\n')
+            {
+                index++;
+                continue;
+            }
+            else if(mainRec.charAt(index+1) == '.')
+            {
+                index+=2;
+                continue;
+            }
+
+            if(Character.isDigit(mainRec.charAt(index-1)) )
+            {
+                mainRec.insert(index-1, "\n");
+                index++;
+            }
+            else if( mainRec.charAt(index+1) == ' '  )
+                mainRec.replace(index+1, index+2, "\n");
+            index++;
+        }
+        return mainRec.toString();
     }
 
     private cocktailRecipeTemplate setRecipeView(String IS){
