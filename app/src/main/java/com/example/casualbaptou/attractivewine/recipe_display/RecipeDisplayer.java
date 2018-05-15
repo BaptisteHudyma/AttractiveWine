@@ -1,4 +1,4 @@
-package com.example.casualbaptou.attractivewine.RecipeDisplay;
+package com.example.casualbaptou.attractivewine.recipe_display;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -44,6 +44,7 @@ public class RecipeDisplayer extends AppCompatActivity {
         else
             reroolRandom.setVisibility(View.INVISIBLE);
 
+    //TODO : load screen while waiting for the api to finish
 
         reroolRandom.setOnClickListener(new View.OnClickListener() {
             @Override

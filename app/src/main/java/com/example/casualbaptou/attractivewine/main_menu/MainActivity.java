@@ -1,4 +1,4 @@
-package com.example.casualbaptou.attractivewine.MainMenu;
+package com.example.casualbaptou.attractivewine.main_menu;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,9 +11,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.casualbaptou.attractivewine.CocktailDisplayMenu.CocktailDisplayActivity;
+import com.example.casualbaptou.attractivewine.cocktail_display_menu.CocktailDisplayActivity;
 import com.example.casualbaptou.attractivewine.R;
-import com.example.casualbaptou.attractivewine.RecipeDisplay.RecipeDisplayer;
+import com.example.casualbaptou.attractivewine.recipe_display.RecipeDisplayer;
 
 import static android.content.ContentValues.TAG;
 

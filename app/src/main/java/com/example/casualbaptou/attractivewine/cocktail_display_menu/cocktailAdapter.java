@@ -1,4 +1,4 @@
-package com.example.casualbaptou.attractivewine.CocktailDisplayMenu;
+package com.example.casualbaptou.attractivewine.cocktail_display_menu;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;

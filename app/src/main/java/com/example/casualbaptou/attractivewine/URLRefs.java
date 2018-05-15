@@ -3,16 +3,20 @@ package com.example.casualbaptou.attractivewine;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.casualbaptou.attractivewine.CocktailDisplayMenu.DisplayerContainer;
+import com.example.casualbaptou.attractivewine.cocktail_display_menu.DisplayerContainer;
+import com.example.casualbaptou.attractivewine.main_menu.MainActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import java.util.Comparator;
@@ -71,7 +75,7 @@ public class URLRefs{
         List<DisplayerContainer> allNames = new ArrayList<>();
         for(int i = 0; i <  Categories.length; i++)
         {
-            String fileName = thisContext.getCacheDir() + "/" + FileNames[i] + ".json";
+            String fileName = FileNames[i] + ".json";
             Log.i(TAG, FileNames[i] + ".json");
             allNames.addAll(displayCocktails(fileName));
         }
@@ -86,7 +90,11 @@ public class URLRefs{
     private List<DisplayerContainer> displayCocktails(String fileName){
 
         List<DisplayerContainer> thoseNames = new ArrayList<>();
-        String jsonFile = loadJSON( fileName );
+        //String jsonFile = loadJSON( fileName );
+        String jsonFile = loadJson(fileName, MainActivity.mainContext);
+        if(jsonFile == null)
+            return thoseNames;
+
         try{
             JSONObject obj = new JSONObject(   jsonFile  );
             JSONArray m_jArry = obj.getJSONArray("drinks");
@@ -102,6 +110,7 @@ public class URLRefs{
         }
         catch(JSONException e){
             e.printStackTrace();
+            Log.e(TAG, "Unable to create json local file");
         }
         return thoseNames;
     }
@@ -119,7 +128,39 @@ public class URLRefs{
             return null;
         }
         return json;
-}
+    }
+
+    private String loadJson(String filename, Context context){
+        try{
+            InputStream is = context.openFileInput( filename );
+            if(is == null)
+            {
+                Log.e(TAG, "Input stream for " + filename + " is empty");
+            }
+            InputStreamReader input = new InputStreamReader(is);
+            BufferedReader bf = new BufferedReader( input );
+            StringBuilder fileCOntent = new StringBuilder();
+            String currentLine;
+
+            while( (currentLine = bf.readLine()) != null  ){
+                fileCOntent.append(currentLine);
+            }
+
+            bf.close();
+            input.close();
+            return fileCOntent.toString();
+
+        }
+        catch(FileNotFoundException e){
+            Log.e(TAG, "File " + filename + " not found");
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 
     private List<DisplayerContainer> sortDispContainerList(List<DisplayerContainer> destination){
         destination.sort(new Comparator<DisplayerContainer>() {

@@ -1,4 +1,4 @@
-package com.example.casualbaptou.attractivewine.CocktailDisplayMenu;
+package com.example.casualbaptou.attractivewine.cocktail_display_menu;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -11,9 +11,9 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.widget.TextView;
 
-import com.example.casualbaptou.attractivewine.MainMenu.MainActivity;
+import com.example.casualbaptou.attractivewine.main_menu.MainActivity;
 import com.example.casualbaptou.attractivewine.R;
-import com.example.casualbaptou.attractivewine.RecipeDisplay.RecipeDisplayer;
+import com.example.casualbaptou.attractivewine.recipe_display.RecipeDisplayer;
 import com.example.casualbaptou.attractivewine.URLRefs;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.casualbaptou.attractivewine.CocktailDisplayMenu;
+package com.example.casualbaptou.attractivewine.cocktail_display_menu;
 
 public class DisplayerContainer {
     private String imageLink;

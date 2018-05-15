@@ -1,4 +1,4 @@
-package com.example.casualbaptou.attractivewine.RecipeDisplay;
+package com.example.casualbaptou.attractivewine.recipe_display;
 
 import android.app.IntentService;
 import android.content.Context;
