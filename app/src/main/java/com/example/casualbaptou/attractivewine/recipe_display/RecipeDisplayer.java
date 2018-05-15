@@ -177,14 +177,14 @@ public class RecipeDisplayer extends AppCompatActivity {
             //A is ingredient
             if(entry.B.endsWith("\n"))
             {
-                quan.append("- " + entry.A +" " + entry.B);
+                quan.append("- ").append(entry.A).append(" ").append(entry.B);
             }
             else
             {
                 if(entry.B.endsWith(" "))
-                    quan.append("- " + entry.B + entry.A + "\n");
+                    quan.append("- ").append(entry.B).append(entry.A).append("\n");
                 else
-                    quan.append("- " + entry.B + " " + entry.A + "\n");
+                    quan.append("- ").append(entry.B).append(" ").append(entry.A).append("\n");
             }
 
 
