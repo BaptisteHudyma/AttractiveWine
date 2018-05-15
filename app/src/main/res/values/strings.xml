@@ -4,10 +4,11 @@
     <string name="random_pick">Random pick</string>
     <string name="favorite">Favorite</string>
     <string name="cocktail_name">Cocktail name</string>
-    <string name="search_hint"></string>
-    <string name="action_search"></string>
+    <string name="search_hint">Hint</string>
+    <string name="action_search">Search</string>
     <string name="recipe">this cocktail recipe</string>
     <string name="ingredients">the ingredients to make the cocktail</string>
     <string name="reroll_rand">Random</string>
     <string name="cocktail_length">cocktail selected</string>
+    <string name="cocktail_image">Cocktail image</string>
 </resources>

@@ -24,6 +24,7 @@
             android:layout_height="110sp"
             android:layout_marginStart="12sp"
             android:layout_marginTop="13sp"
+            android:contentDescription="@string/cocktail_image"
             />
 
         <TextView
@@ -94,7 +95,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:alpha="0.7">
+        android:background="#FFF"
+        android:alpha="0">
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

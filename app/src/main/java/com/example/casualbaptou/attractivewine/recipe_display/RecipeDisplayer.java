@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewAnimator;
 
@@ -38,7 +39,13 @@ public class RecipeDisplayer extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_displayer);
         cocktailID = getIntent().getStringExtra("EXTRA_cocktail_ID");
-        startCocktailAPIreading();
+
+        RelativeLayout RL = findViewById(R.id.loading_panel);
+        RL.setAlpha(1);
+        RL.setVisibility(View.VISIBLE);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
         Button reroolRandom = findViewById(R.id.rerollButton);
         if(cocktailID.length()<1)
@@ -46,15 +53,20 @@ public class RecipeDisplayer extends AppCompatActivity {
         else
             reroolRandom.setVisibility(View.INVISIBLE);
 
-    //TODO : load screen while waiting for the api to finish
+
+        startCocktailAPIreading();
+
         reroolRandom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i(TAG,"pick random pressed");
                 findViewById(R.id.loading_panel).setVisibility(View.VISIBLE);
+                startCocktailAPIreading();
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                startCocktailAPIreading();
+                RelativeLayout RL = findViewById(R.id.loading_panel);
+                RL.setAlpha(1);
+                RL.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -87,7 +99,11 @@ public class RecipeDisplayer extends AppCompatActivity {
             mainRecipe.setText(cocktailRecipe.getMainRecipe() );
             category.setText(cocktailRecipe.getCategory());
 
-            findViewById(R.id.loading_panel).setVisibility(View.GONE);
+            RelativeLayout RL = findViewById(R.id.loading_panel);
+            RL.setAlpha(0);
+            RL.setVisibility(View.GONE);
+
+
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
             Picasso.get().load(cocktailRecipe.getImageLink()).into(cocktailthumb);
@@ -137,10 +153,10 @@ public class RecipeDisplayer extends AppCompatActivity {
             }
             else
             {
-                //if(entry.B.endsWith(" "))
+                if(entry.B.endsWith(" "))
                     quan.append("- " + entry.B + entry.A + "\n");
-                //else
-                //    quan.append("- " + entry.B + " " + entry.A + "\n");
+                else
+                    quan.append("- " + entry.B + " " + entry.A + "\n");
             }
 
 
