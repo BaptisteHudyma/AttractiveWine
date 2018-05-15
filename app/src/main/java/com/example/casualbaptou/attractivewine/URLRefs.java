@@ -21,10 +21,10 @@ import java.util.ArrayList;
 
 import java.util.Comparator;
 import java.util.List;
-import static android.content.ContentValues.TAG;
 
 
 public class URLRefs{
+    private String TAG = "URL refs :";
     public static String URLbase = "https://www.thecocktaildb.com/api/json/v1/1/";
     public static String []Refs = {   "search.php?s="   //0 //+cocktail name : return recipe
                                     , "search.php?i="   //1 //+ingredient : return ingredient description

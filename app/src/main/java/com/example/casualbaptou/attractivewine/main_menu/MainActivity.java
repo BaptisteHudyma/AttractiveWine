@@ -9,23 +9,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.example.casualbaptou.attractivewine.cocktail_display_menu.CocktailDisplayActivity;
 import com.example.casualbaptou.attractivewine.R;
 import com.example.casualbaptou.attractivewine.recipe_display.RecipeDisplayer;
 
-import static android.content.ContentValues.TAG;
-
 public class MainActivity extends AppCompatActivity {
     public static String COCKTAILS_UPDATE = "com.example.casualbaptou.attractivewine.update.cocktailUpdates";
     public static Context mainContext;
+
+    private String TAG = "Main activity :";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mainContext = this;
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
         setContentView(R.layout.activity_main);
         setButtonActions();
@@ -43,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             Button displayCocktailList = findViewById(R.id.CocktailList);
             displayCocktailList.setActivated(true);
+
+            RelativeLayout RL = findViewById(R.id.mainLoading);
+            RL.setVisibility(View.GONE);
+            RL.findViewById(R.id.mainLoading).setAlpha(0);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         }
     }
 

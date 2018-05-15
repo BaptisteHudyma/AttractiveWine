@@ -6,32 +6,54 @@
     android:layout_height="match_parent"
     tools:context=".main_menu.MainActivity">
 
-    <Button
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/cocktail_list"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
-        android:id="@+id/CocktailList"
-        />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/random_pick"
-        android:layout_below="@+id/CocktailList"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:id="@+id/Random"
-        />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/favorite"
-        android:layout_below="@+id/Random"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:id="@+id/Favorite"
-        />
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cocktail_list"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/CocktailList"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/random_pick"
+            android:layout_below="@+id/CocktailList"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40sp"
+            android:id="@+id/Random"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/favorite"
+            android:layout_below="@+id/Random"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40sp"
+            android:id="@+id/Favorite"
+            />
+
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:id="@+id/mainLoading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:alpha="1"
+        android:background="#FFF">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"/>
+    </RelativeLayout>
 
 
 </RelativeLayout>

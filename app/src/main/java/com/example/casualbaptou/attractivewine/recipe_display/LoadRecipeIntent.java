@@ -14,10 +14,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static android.content.ContentValues.TAG;
-
 public class LoadRecipeIntent extends IntentService {
 
+    private String TAG = "Load recipe intent";
     private static final String ACTION_get_cocktail_API = "com.example.casualbaptou.attractivewine.action.cocktailLoad";
     private static String ID;
 

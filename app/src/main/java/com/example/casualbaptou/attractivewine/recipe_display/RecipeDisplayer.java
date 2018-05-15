@@ -10,9 +10,11 @@ import android.os.Bundle;
 
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ViewAnimator;
 
 import com.example.casualbaptou.attractivewine.R;
 import com.squareup.picasso.Picasso;
@@ -24,9 +26,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.content.ContentValues.TAG;
-
 public class RecipeDisplayer extends AppCompatActivity {
+    private String TAG = "Recipe displayer : ";
+
     public static String COCKTAILS_RECIPE_FINISHED= "com.example.casualbaptou.attractivewine.update.cocktailRecipe";
     public static String recipeFile;
     public static String cocktailID;
@@ -45,11 +47,13 @@ public class RecipeDisplayer extends AppCompatActivity {
             reroolRandom.setVisibility(View.INVISIBLE);
 
     //TODO : load screen while waiting for the api to finish
-
         reroolRandom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i(TAG,"pick random pressed");
+                findViewById(R.id.loading_panel).setVisibility(View.VISIBLE);
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 startCocktailAPIreading();
             }
         });
@@ -82,6 +86,9 @@ public class RecipeDisplayer extends AppCompatActivity {
             cocktailTitle.setText( cocktailRecipe.getName() );
             mainRecipe.setText(cocktailRecipe.getMainRecipe() );
             category.setText(cocktailRecipe.getCategory());
+
+            findViewById(R.id.loading_panel).setVisibility(View.GONE);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
             Picasso.get().load(cocktailRecipe.getImageLink()).into(cocktailthumb);
             lastModified.setText( cocktailRecipe.getLastTimeModified() );
@@ -130,10 +137,10 @@ public class RecipeDisplayer extends AppCompatActivity {
             }
             else
             {
-                if(entry.B.endsWith(" "))
+                //if(entry.B.endsWith(" "))
                     quan.append("- " + entry.B + entry.A + "\n");
-                else
-                    quan.append("- " + entry.B + " " + entry.A + "\n");
+                //else
+                //    quan.append("- " + entry.B + " " + entry.A + "\n");
             }
 
 
@@ -151,7 +158,7 @@ public class RecipeDisplayer extends AppCompatActivity {
         {
             try{
                 String ing = jsObj.getString( ingredientRef + i );
-                if( ing.length() < 1)
+                if( ing.length() < 1 || ing.compareTo("null")==0)
                     break;
 
                 doubleString element = new doubleString( ing, jsObj.getString(measure + i) );
