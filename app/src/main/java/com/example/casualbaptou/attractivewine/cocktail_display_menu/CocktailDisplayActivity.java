@@ -40,9 +40,20 @@ public class CocktailDisplayActivity extends AppCompatActivity implements cockta
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        SearchView searchView;
+
         getMenuInflater().inflate(R.menu.menu, menu);
         // Associate searchable configuration with the SearchView
+        createSearchAction(menu);
+        createFilterTab(menu);
+        return true;
+    }
+
+    private void createFilterTab(Menu menu){
+        //TODO: implement filter menu here
+    }
+
+    private void createSearchAction(Menu menu){
+        SearchView searchView;
         try{
             SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
             searchView = (SearchView) menu.findItem(R.id.action_search)
@@ -70,8 +81,6 @@ public class CocktailDisplayActivity extends AppCompatActivity implements cockta
             e.printStackTrace();
         }
         // listening to search query text change
-
-        return true;
     }
 
     public static TextView numberOfSelected;

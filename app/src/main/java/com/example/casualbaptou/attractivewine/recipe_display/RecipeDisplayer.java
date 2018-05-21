@@ -5,17 +5,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.ViewAnimator;
 
 import com.example.casualbaptou.attractivewine.R;
 import com.squareup.picasso.Picasso;
@@ -33,9 +36,15 @@ public class RecipeDisplayer extends AppCompatActivity {
     public static String COCKTAILS_RECIPE_FINISHED= "com.example.casualbaptou.attractivewine.update.cocktailRecipe";
     public static String recipeFile;
     public static String cocktailID;
+    private String message;
+
+    private ShareActionProvider share_action;
+    private Intent shareIntent = new Intent(Intent.ACTION_SEND);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        message =  getResources().getString(R.string.share_text) + "\n" + "https://www.thecocktaildb.com/drink.php?c=";
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_displayer);
         cocktailID = getIntent().getStringExtra("EXTRA_cocktail_ID");
@@ -53,6 +62,7 @@ public class RecipeDisplayer extends AppCompatActivity {
         else
             reroolRandom.setVisibility(View.INVISIBLE);
 
+        //TODO: keep track of the actual random cocktail when turning the phone
 
         startCocktailAPIreading();
 
@@ -71,7 +81,28 @@ public class RecipeDisplayer extends AppCompatActivity {
         });
     }
 
+    private void updateMessage(int id){
+        message =  getResources().getString(R.string.share_text) + "https://www.thecocktaildb.com/drink.php?c=";
+        message += id;
+        shareIntent.putExtra( Intent.EXTRA_TEXT, message);
+        share_action.setShareIntent(shareIntent);
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.share_button, menu);
+        MenuItem item = menu.findItem(R.id.action_share);
+        share_action = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        message += cocktailID;
+        shareIntent.putExtra( Intent.EXTRA_TEXT, message );
+
+        share_action.setShareIntent(shareIntent);
+
+        return true;
+    }
 
     private void startCocktailAPIreading(){
         LoadRecipeIntent.startRecipePulling(this);
@@ -82,7 +113,6 @@ public class RecipeDisplayer extends AppCompatActivity {
     public class downloadFinished extends BroadcastReceiver{
         @Override
         public void onReceive(Context context, Intent intent) {
-
             TextView cocktailTitle = findViewById(R.id.main_title);
             TextView quantities = findViewById(R.id.quantities);
             TextView category = findViewById(R.id.category);
@@ -110,6 +140,8 @@ public class RecipeDisplayer extends AppCompatActivity {
             lastModified.setText( cocktailRecipe.getLastTimeModified() );
 
             quantities.setText(getFormatIngredients( cocktailRecipe.getIngredients() ));
+
+            updateMessage( cocktailRecipe.getId() );
         }
     }
 
@@ -159,6 +191,7 @@ public class RecipeDisplayer extends AppCompatActivity {
                 thisCocktail.setImageLink( JsStrinf.getString( "strDrinkThumb" ) );
                 thisCocktail.setLastTimeModified( JsStrinf.getString( "dateModified" ) );
                 thisCocktail.setIngredients( getIngredients(JsStrinf)  );
+                thisCocktail.setId( Integer.parseInt(JsStrinf.getString("idDrink")) );
             }
         }
         catch(JSONException e){

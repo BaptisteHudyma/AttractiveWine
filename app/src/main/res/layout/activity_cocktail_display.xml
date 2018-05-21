@@ -8,9 +8,11 @@
     <TextView
         android:id="@+id/cocktailsLength"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="13sp"
         android:textAlignment="center"
-        android:text="@string/cocktail_length" />
+        android:text="@string/cocktail_length"
+        android:textSize="12sp"
+        />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/cocktailListDisp"

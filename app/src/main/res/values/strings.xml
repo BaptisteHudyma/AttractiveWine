@@ -11,4 +11,7 @@
     <string name="reroll_rand">Random</string>
     <string name="cocktail_length">cocktail selected</string>
     <string name="cocktail_image">Cocktail image</string>
+    <string name="action_filter">Filter choices</string>
+    <string name="action_share">Share recipe</string>
+    <string name="share_text">Check out this awesome cocktail !</string>
 </resources>

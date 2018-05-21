@@ -12,6 +12,16 @@ public class cocktailRecipeTemplate {
     private String glassType;
     private String alcoholic;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    private int id;
+
 
     public List<doubleString> getIngredients() {
         return ingredients;
