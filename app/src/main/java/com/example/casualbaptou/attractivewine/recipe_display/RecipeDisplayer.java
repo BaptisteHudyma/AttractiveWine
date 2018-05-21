@@ -43,8 +43,6 @@ public class RecipeDisplayer extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        message =  getResources().getString(R.string.share_text) + "\n" + "https://www.thecocktaildb.com/drink.php?c=";
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_displayer);
         cocktailID = getIntent().getStringExtra("EXTRA_cocktail_ID");
@@ -82,7 +80,7 @@ public class RecipeDisplayer extends AppCompatActivity {
     }
 
     private void updateMessage(int id){
-        message =  getResources().getString(R.string.share_text) + "https://www.thecocktaildb.com/drink.php?c=";
+        message =  getResources().getString(R.string.share_text) + "\nhttps://www.thecocktaildb.com/drink.php?c=";
         message += id;
         shareIntent.putExtra( Intent.EXTRA_TEXT, message);
         share_action.setShareIntent(shareIntent);

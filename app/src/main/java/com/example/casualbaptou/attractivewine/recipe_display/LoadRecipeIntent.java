@@ -51,7 +51,10 @@ public class LoadRecipeIntent extends IntentService {
                 else                //chosen pick
                     url = URLRefs.URLbase + URLRefs.Refs[2] + ID;
 
-                RecipeDisplayer.recipeFile = convertStreamToString(getinputStream( url ));
+                InputStream is = getinputStream( url );
+                if(is == null)
+                    return;
+                RecipeDisplayer.recipeFile = convertStreamToString(is);
                 LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(RecipeDisplayer.COCKTAILS_RECIPE_FINISHED));
             }
         }
