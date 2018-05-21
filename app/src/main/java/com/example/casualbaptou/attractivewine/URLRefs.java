@@ -2,7 +2,6 @@ package com.example.casualbaptou.attractivewine;
 
 import android.content.Context;
 import android.util.Log;
-
 import com.example.casualbaptou.attractivewine.cocktail_display_menu.DisplayerContainer;
 import com.example.casualbaptou.attractivewine.main_menu.MainActivity;
 

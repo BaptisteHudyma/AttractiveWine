@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.i(TAG,"display cocktail list pressed");
                 Intent cocktailListDisplay = new Intent(mainContext, CocktailDisplayActivity.class);
+                cocktailListDisplay.putExtra( "EXTRA_isFavorite", "false" );
                 startActivity(cocktailListDisplay);
             }
         });
@@ -87,8 +88,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.i(TAG,"see favorited pressed");
+                Intent cocktailListDisplay = new Intent(mainContext, CocktailDisplayActivity.class);
+                cocktailListDisplay.putExtra( "EXTRA_isFavorite", "true" );
+                startActivity(cocktailListDisplay);
             }
         });
 
     }
+
+
 }

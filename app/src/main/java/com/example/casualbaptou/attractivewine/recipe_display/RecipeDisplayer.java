@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.casualbaptou.attractivewine.R;
 import com.squareup.picasso.Picasso;
@@ -28,7 +30,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 
 public class RecipeDisplayer extends AppCompatActivity {
     private String TAG = "Recipe displayer : ";
@@ -40,6 +45,8 @@ public class RecipeDisplayer extends AppCompatActivity {
 
     private ShareActionProvider share_action;
     private Intent shareIntent = new Intent(Intent.ACTION_SEND);
+    private cocktailRecipeTemplate cocktailRecipe;
+    private Menu optionMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,9 +96,11 @@ public class RecipeDisplayer extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.share_button, menu);
-        MenuItem item = menu.findItem(R.id.action_share);
-        share_action = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+        MenuItem share = menu.findItem(R.id.action_share);
 
+        optionMenu = menu;
+
+        share_action = (ShareActionProvider) MenuItemCompat.getActionProvider(share);
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
         message += cocktailID;
@@ -101,6 +110,29 @@ public class RecipeDisplayer extends AppCompatActivity {
 
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.favorite_star:
+                if(item.isChecked()){   //remove from favorite
+                    item.setIcon(R.drawable.grey_star);
+                    item.setChecked(false);
+                    if(isFavorite(cocktailRecipe.getName()))
+                        removeFavorite(cocktailRecipe.getName());
+                }
+                else
+                {
+                    item.setIcon(R.drawable.yellow_star);
+                    item.setChecked(true);
+                    saveFavorite(cocktailRecipe.getName());
+                }
+                break;
+        }
+        return true;
+    }
+
+
 
     private void startCocktailAPIreading(){
         LoadRecipeIntent.startRecipePulling(this);
@@ -119,7 +151,7 @@ public class RecipeDisplayer extends AppCompatActivity {
             TextView mainRecipe = findViewById(R.id.recipe);
             TextView lastModified = findViewById(R.id.lastModified);
 
-            cocktailRecipeTemplate cocktailRecipe = setRecipeView(recipeFile);
+            cocktailRecipe = setRecipeView(recipeFile);
             if(cocktailRecipe == null)
                 return;
 
@@ -140,6 +172,16 @@ public class RecipeDisplayer extends AppCompatActivity {
             quantities.setText(getFormatIngredients( cocktailRecipe.getIngredients() ));
 
             updateMessage( cocktailRecipe.getId() );
+
+            MenuItem fav = optionMenu.findItem(R.id.favorite_star);
+            if(isFavorite(cocktailRecipe.getName()))    {
+                fav.setIcon(R.drawable.yellow_star);
+                fav.setChecked(true);
+            }
+            else    {
+                fav.setIcon(R.drawable.grey_star);
+                fav.setChecked(false);
+            }
         }
     }
 
@@ -245,5 +287,43 @@ public class RecipeDisplayer extends AppCompatActivity {
 
         }
         return ingredientCouples;
+    }
+
+    public void saveFavorite(String name) {
+        //save cocktailRecipe
+        SharedPreferences prefs = getSharedPreferences("Favorite_cocktails", MODE_PRIVATE);
+        Set<String> favoriteSet = prefs.getStringSet("Favorite_cocktails", null );
+        if(favoriteSet == null)
+            favoriteSet = new HashSet<>();
+        favoriteSet.add(name);
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putStringSet("Favorite_cocktails", favoriteSet);
+        editor.apply();
+        editor.commit();
+
+        Toast.makeText(this, name + " added to favorite", Toast.LENGTH_LONG).show();
+    }
+
+    public void removeFavorite(String name) {
+        //save cocktailRecipe
+        SharedPreferences sharedPref = getSharedPreferences("Favorite_cocktails", MODE_PRIVATE);
+        Set<String> favoriteSet = sharedPref.getStringSet("Favorite_cocktails", null );
+        if(favoriteSet == null)
+            return;
+        favoriteSet.remove(name);
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putStringSet("Favorite_cocktails", favoriteSet);
+        editor.apply();
+        editor.commit();
+    }
+
+    private boolean isFavorite(String name) {
+        //save cocktailRecipe
+        SharedPreferences sharedPref = getSharedPreferences("Favorite_cocktails", MODE_PRIVATE);
+        Set<String> favoriteSet = sharedPref.getStringSet("Favorite_cocktails", null );
+
+        return favoriteSet!=null && favoriteSet.contains(name);
     }
 }

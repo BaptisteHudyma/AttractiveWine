@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".recipe_display.RecipeDisplayer">
+
+    <item
+        android:id="@+id/favorite_star"
+        android:icon="@drawable/grey_star"
+        android:orderInCategory="100"
+        android:title="@string/favorite"
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_share"
         android:icon="@drawable/share"
