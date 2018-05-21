@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -298,6 +299,7 @@ public class RecipeDisplayer extends AppCompatActivity {
         favoriteSet.add(name);
 
         SharedPreferences.Editor editor = prefs.edit();
+        editor.clear();
         editor.putStringSet("Favorite_cocktails", favoriteSet);
         editor.apply();
         editor.commit();
@@ -314,6 +316,7 @@ public class RecipeDisplayer extends AppCompatActivity {
         favoriteSet.remove(name);
 
         SharedPreferences.Editor editor = sharedPref.edit();
+        editor.clear();
         editor.putStringSet("Favorite_cocktails", favoriteSet);
         editor.apply();
         editor.commit();
