@@ -36,7 +36,6 @@
 
         <activity android:name=".cocktail_display_menu.CocktailDisplayActivity" />
         <activity android:name=".recipe_display.RecipeDisplayer" />
-        <activity android:name=".favorite_displayer.Favorite_displayer"></activity>
     </application>
 
 </manifest>
