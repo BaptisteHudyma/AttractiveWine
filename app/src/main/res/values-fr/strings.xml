@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">AttractiveWine</string>
+    <string name="cocktail_list">Liste de cocktail</string>
+    <string name="random_pick">Cocktail au hasard</string>
+    <string name="favorite">Favori</string>
+    <string name="cocktail_name">Nom du cocktail</string>
+    <string name="search_hint">Hint</string>
+    <string name="action_search">Rechercher</string>
+    <string name="recipe">Ce cocktail contient</string>
+    <string name="ingredients">Liste des ingrédient du cocktail</string>
+    <string name="reroll_rand">Aléatoire</string>
+    <string name="cocktail_length">cocktail sélectionner</string>
+    <string name="cocktail_image">Cocktail image</string>
+    <string name="action_filter">Choix des filtres</string>
+    <string name="action_share">Partager</string>
+    <string name="share_text">Regarde ce merveilleux cocktail</string>
+    <string name="language">Langue</string>
+</resources>
