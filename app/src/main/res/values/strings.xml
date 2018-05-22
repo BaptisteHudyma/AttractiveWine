@@ -14,4 +14,5 @@
     <string name="action_filter">Filter choices</string>
     <string name="action_share">Share recipe</string>
     <string name="share_text">Check out this awesome cocktail !</string>
+    <string name="option">Open option menu</string>
 </resources>
