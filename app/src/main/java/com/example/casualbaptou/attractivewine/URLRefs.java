@@ -10,12 +10,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 import java.util.Comparator;
@@ -68,10 +73,11 @@ public class URLRefs{
             "softDrinkSoda"
     };
 
-    private List<DisplayerContainer> allCocktails = new ArrayList<>();
+    public static List<DisplayerContainer> allCocktails = new ArrayList<>();
 
-    public List<DisplayerContainer> getAllCocktailNames(Context thisContext){
+    public List<DisplayerContainer> getAllCocktailNames(){
         List<DisplayerContainer> allNames = new ArrayList<>();
+
         for(int i = 0; i <  Categories.length; i++)
         {
             String fileName = FileNames[i] + ".json";
@@ -89,14 +95,13 @@ public class URLRefs{
     private List<DisplayerContainer> displayCocktails(String fileName){
 
         List<DisplayerContainer> thoseNames = new ArrayList<>();
-        //String jsonFile = loadJSON( fileName );
-        String jsonFile = loadJson(fileName, MainActivity.mainContext);
-        if(jsonFile == null)
-            return thoseNames;
-
         try{
-            JSONObject obj = new JSONObject(   jsonFile  );
+            JSONObject obj = loadJson(fileName, MainActivity.mainContext);
+            if(obj == null)
+                return new ArrayList<>();
+
             JSONArray m_jArry = obj.getJSONArray("drinks");
+
             for (int i = 0; i < m_jArry.length(); i++) {
                 JSONObject JsStrinf = m_jArry.getJSONObject(i);
 
@@ -114,27 +119,16 @@ public class URLRefs{
         return thoseNames;
     }
 
-    private String loadJSON(String fileName) {
-        String json;
-        try {
-            InputStream is = new FileInputStream( fileName );
-            byte[] buffer = new byte[is.available()];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
-    }
+    private JSONObject loadJson(String filename, Context context){
+        if(!filename.endsWith(".json"))
+            filename +=".json";
 
-    private String loadJson(String filename, Context context){
         try{
             InputStream is = context.openFileInput( filename );
             if(is == null)
             {
                 Log.e(TAG, "Input stream for " + filename + " is empty");
+                return null;
             }
             InputStreamReader input = new InputStreamReader(is);
             BufferedReader bf = new BufferedReader( input );
@@ -147,7 +141,7 @@ public class URLRefs{
 
             bf.close();
             input.close();
-            return fileCOntent.toString();
+            return new JSONObject(  fileCOntent.toString() );
 
         }
         catch(FileNotFoundException e){
@@ -156,9 +150,113 @@ public class URLRefs{
         catch(IOException e){
             e.printStackTrace();
         }
+        catch(JSONException e){
+            e.printStackTrace();
+        }
         return null;
     }
 
+    public boolean saveCocktailAtURL(String stringUrl, String fileName) {
+        try
+        {
+            URL url = new URL( stringUrl );
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.connect();
+            InputStream IN;
+
+            if (HttpURLConnection.HTTP_OK == conn.getResponseCode() && (IN = conn.getInputStream()) != null ) {
+                return saveJson(IN, fileName, MainActivity.mainContext );
+            }
+            else
+                Log.e(TAG, "URL " + url + " has given no answers");
+
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private boolean saveJson(InputStream in, String file, Context context ){
+        if(!file.endsWith(".json"))
+            file += ".json";
+
+        try{
+            BufferedReader bf = new BufferedReader( new InputStreamReader(in));
+            OutputStreamWriter out = new OutputStreamWriter(context.openFileOutput(file, Context.MODE_PRIVATE));
+
+            StringBuilder finalStrg = new StringBuilder();
+            String line;
+            while( (line = bf.readLine()) != null )
+            {
+                finalStrg.append(line);
+            }
+
+            out.write(finalStrg.toString());
+
+            in.close();
+            out.close();
+            return true;
+        }
+        catch( IOException e){
+            Log.e(TAG, "Unable to write in file " + file);
+        }
+        return false;
+    }
+
+    public static void saveCocktailJson(String content, String filename, Context context){
+        if(!filename.endsWith(".json") )
+            filename += ".json";
+
+        File path = context.getFilesDir();
+        File cocktailFile = new File(path, filename);
+        try{
+            FileOutputStream stream = new FileOutputStream(cocktailFile);
+            stream.write(content.getBytes());
+            stream.close();
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public static String loadStringJson(String filename, Context context){
+        if(!filename.endsWith(".json"))
+            filename +=".json";
+
+        File path = context.getFilesDir();
+        try{
+            File file = new File(path, filename);
+            int length = (int) file.length();
+
+            byte [] bytes = new byte[length];
+            FileInputStream in = new FileInputStream(file);
+            in.read(bytes);
+            in.close();
+            return new String(bytes);
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static boolean cocktailIsSaved( String cocktailName, Context context ){
+        if(!cocktailName.endsWith(".json")){
+            cocktailName += ".json";
+        }
+
+        try {
+            InputStream is = context.openFileInput(cocktailName);
+            //TODO do more tests to see if file is really readable
+
+            return true;
+        }
+        catch(FileNotFoundException e){
+            return false;
+        }
+    }
 
 
     private List<DisplayerContainer> sortDispContainerList(List<DisplayerContainer> destination){

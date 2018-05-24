@@ -23,7 +23,6 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -33,6 +32,9 @@
             android:exported="false" />
         <service
             android:name=".recipe_display.LoadRecipeIntent"
+            android:exported="false" />
+        <service
+            android:name=".DownloadEveryCocktailsIntent"
             android:exported="false" />
 
         <activity android:name=".cocktail_display_menu.CocktailDisplayActivity" />

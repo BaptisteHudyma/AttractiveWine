@@ -17,16 +17,16 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
+import com.example.casualbaptou.attractivewine.DownloadEveryCocktailsIntent;
+import com.example.casualbaptou.attractivewine.NetworkConnection;
 import com.example.casualbaptou.attractivewine.R;
 import com.example.casualbaptou.attractivewine.cocktail_display_menu.CocktailDisplayActivity;
 import com.example.casualbaptou.attractivewine.recipe_display.RecipeDisplayer;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity {
     public static String COCKTAILS_UPDATE = "com.example.casualbaptou.attractivewine.update.cocktailUpdates";
     public static Context mainContext;
+    public static String DOWLOAD_FINISHED = "com.example.casualbaptou.attractivewine.update.downloadDone";
     Spinner spinner;
 
     private String TAG = "Main activity :";
@@ -43,10 +43,19 @@ public class MainActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
         setButtonActions();
-        startCocktailAPIreading();
+
+        if(NetworkConnection.getInstance(this).isAvailable())
+            startCocktailAPIreading();
+        else
+        {
+            //TODO : if cocktails already saved, pass with a warning
+            //TODO : else display a connection error
+            RelativeLayout RL = findViewById(R.id.mainLoading);
+            RL.setVisibility(View.GONE);
+            RL.findViewById(R.id.mainLoading).setAlpha(0);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        }
     }
-
-
 
     private void startCocktailAPIreading(){
         MainCocktailLoaderIntent.startActionGetCocktail(this);
@@ -66,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         }
     }
-
 
     private void setButtonActions(){
         Button displayCocktailList = findViewById(R.id.CocktailList);
@@ -130,22 +138,31 @@ private ArrayAdapter<CharSequence> optionAdapter;
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
 
+        Object selectetd = spinner.getSelectedItem();
 
+        if(selectetd.toString().equals(getString(R.string.language))){
 
-        if(spinner.getSelectedItem().toString().equals(getString(R.string.language))){
-
-    }
-        if(spinner.getSelectedItem().toString().equals(getString(R.string.rinit))){
+        }
+        if(selectetd.toString().equals(getString(R.string.rinit))){
             
-    }
-        if(spinner.getSelectedItem().toString().equals(getString(R.string.savePref))){
+        }
+        if(selectetd.toString().equals(getString(R.string.savePref))){
 
-    }
-
-
-
+        }
         return true;
     }
 
+    private void saveAllCocktails(){    //TODO : Alex met cette fonction dans l'option "sauvegarde des fichiers
+        DownloadEveryCocktailsIntent.startActionGetCocktail(this);
+        IntentFilter iT = new IntentFilter(DOWLOAD_FINISHED);
+        LocalBroadcastManager.getInstance(this).registerReceiver( new allDownloadsFinished(), iT );
+    }
+
+    public class allDownloadsFinished extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //TODO : display end of download notif
+        }
+    }
 
 }
