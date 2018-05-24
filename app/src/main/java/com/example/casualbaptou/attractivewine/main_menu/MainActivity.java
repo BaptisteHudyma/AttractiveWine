@@ -20,13 +20,13 @@ import android.widget.Spinner;
 import com.example.casualbaptou.attractivewine.DownloadEveryCocktailsIntent;
 import com.example.casualbaptou.attractivewine.NetworkConnection;
 import com.example.casualbaptou.attractivewine.R;
+import com.example.casualbaptou.attractivewine.URLRefs;
 import com.example.casualbaptou.attractivewine.cocktail_display_menu.CocktailDisplayActivity;
 import com.example.casualbaptou.attractivewine.recipe_display.RecipeDisplayer;
 
 public class MainActivity extends AppCompatActivity {
     public static String COCKTAILS_UPDATE = "com.example.casualbaptou.attractivewine.update.cocktailUpdates";
     public static Context mainContext;
-    public static String DOWLOAD_FINISHED = "com.example.casualbaptou.attractivewine.update.downloadDone";
     Spinner spinner;
 
     private String TAG = "Main activity :";
@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.mainLoading).setAlpha(1);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+        new URLRefs().getAllCocktailNames();    //update the total cocktail list
 
         setButtonActions();
 
@@ -154,15 +156,6 @@ private ArrayAdapter<CharSequence> optionAdapter;
 
     private void saveAllCocktails(){    //TODO : Alex met cette fonction dans l'option "sauvegarde des fichiers
         DownloadEveryCocktailsIntent.startActionGetCocktail(this);
-        IntentFilter iT = new IntentFilter(DOWLOAD_FINISHED);
-        LocalBroadcastManager.getInstance(this).registerReceiver( new allDownloadsFinished(), iT );
-    }
-
-    public class allDownloadsFinished extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            //TODO : display end of download notif
-        }
     }
 
 }
