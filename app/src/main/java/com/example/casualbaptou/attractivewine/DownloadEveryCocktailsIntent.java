@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.example.casualbaptou.attractivewine.cocktail_display_menu.DisplayerContainer;
 import com.example.casualbaptou.attractivewine.main_menu.MainActivity;
+import com.squareup.picasso.Picasso;
 
 public class DownloadEveryCocktailsIntent extends IntentService {
 
@@ -23,6 +24,8 @@ public class DownloadEveryCocktailsIntent extends IntentService {
     private static Notification.Builder notifBuilder;
     private static NotificationManager notifManager;
     private static Notification notif;
+
+    private final Context currentContext = MainActivity.mainContext;
 
     public static void startActionGetCocktail(Context context) {
         try{
@@ -56,12 +59,12 @@ public class DownloadEveryCocktailsIntent extends IntentService {
                 float currentProgress = 0;
 
                 for(DisplayerContainer cocktail : URLRefs.allCocktails){
-                    if( uRef.saveCocktailAtURL( URLRefs.URLbase + URLRefs.Refs[0] + cocktail.getCocktailName(), cocktail.getID() ) ){
-
+                    if( NetworkConnection.getInstance(currentContext).isAvailable() && uRef.saveCocktailAtURL( URLRefs.URLbase + URLRefs.Refs[0] + cocktail.getCocktailName(), cocktail.getID() ) ){
                         notifBuilder.setProgress(100, (int)currentProgress, false);
                         currentProgress += (float)100/URLRefs.allCocktails.size();
                         notif = notifBuilder.build();
                         notifManager.notify(42, notif);
+                        Picasso.get().load(cocktail.getImageLink());
                     }
                     else
                     {
@@ -70,7 +73,7 @@ public class DownloadEveryCocktailsIntent extends IntentService {
                 }
 
                 notifBuilder.setContentText("")
-                            .setContentTitle(MainActivity.mainContext.getString(R.string.recipe_download_notif_title))
+                            .setContentTitle(currentContext.getString(R.string.recipe_download_notif_title))
                             .setOngoing(false)
                             .setProgress(100, 100, false);
                 notif = notifBuilder.build();

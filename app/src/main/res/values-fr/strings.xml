@@ -20,4 +20,5 @@
     <string name="rinit">Réinitialiser</string>
     <string name="recipe_download_notif_title">Mise en chache des recettes...</string>
     <string name="recipe_download_notif_title_finished">Telechargement terminé !</string>
+    <string name="no_network">Pas de connection</string>
 </resources>

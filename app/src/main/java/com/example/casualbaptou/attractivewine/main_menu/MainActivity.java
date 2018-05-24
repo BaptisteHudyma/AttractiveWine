@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mainContext = this;
+        mainContext = getApplicationContext();
 
         findViewById(R.id.mainLoading).setAlpha(1);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
@@ -50,8 +50,12 @@ public class MainActivity extends AppCompatActivity {
             startCocktailAPIreading();
         else
         {
-            //TODO : if cocktails already saved, pass with a warning
-            //TODO : else display a connection error
+            if(!URLRefs.cocktailIsSaved(URLRefs.FileNames[0], this)){
+                findViewById(R.id.no_connection).setAlpha(1);
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            }
+
             RelativeLayout RL = findViewById(R.id.mainLoading);
             RL.setVisibility(View.GONE);
             RL.findViewById(R.id.mainLoading).setAlpha(0);
@@ -75,6 +79,12 @@ public class MainActivity extends AppCompatActivity {
             RL.setVisibility(View.GONE);
             RL.findViewById(R.id.mainLoading).setAlpha(0);
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+            if(!MainCocktailLoaderIntent.isLoaded){
+                findViewById(R.id.no_connection).setAlpha(1);
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            }
         }
     }
 
