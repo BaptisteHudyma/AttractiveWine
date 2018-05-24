@@ -13,10 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.example.casualbaptou.attractivewine.DownloadEveryCocktailsIntent;
 import com.example.casualbaptou.attractivewine.NetworkConnection;
