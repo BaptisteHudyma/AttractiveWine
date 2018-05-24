@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.example.casualbaptou.attractivewine.NetworkConnection;
 import com.example.casualbaptou.attractivewine.URLRefs;
 
 import java.io.BufferedReader;
@@ -54,6 +55,10 @@ public class MainCocktailLoaderIntent extends IntentService {
 
     private boolean saveCocktailLists() {
         for(int i = 0; i< URLRefs.Categories.length; i++) {
+            if(!NetworkConnection.getInstance(this).isAvailable()){
+                //TODO : better implementation
+                return false;
+            }
             try {
 
                 URL url = new URL(URLRefs.URLbase + URLRefs.Refs[7] + URLRefs.Categories[i]);
@@ -118,7 +123,5 @@ public class MainCocktailLoaderIntent extends IntentService {
         catch( IOException e){
             Log.e(TAG, "Unable to write in file " + file);
         }
-
-
     }
 }

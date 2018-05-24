@@ -18,14 +18,16 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.casualbaptou.attractivewine.DownloadEveryCocktailsIntent;
+import com.example.casualbaptou.attractivewine.NetworkConnection;
 import com.example.casualbaptou.attractivewine.R;
+import com.example.casualbaptou.attractivewine.URLRefs;
 import com.example.casualbaptou.attractivewine.cocktail_display_menu.CocktailDisplayActivity;
 import com.example.casualbaptou.attractivewine.recipe_display.RecipeDisplayer;
 
 public class MainActivity extends AppCompatActivity {
     public static String COCKTAILS_UPDATE = "com.example.casualbaptou.attractivewine.update.cocktailUpdates";
     public static Context mainContext;
-    Spinner spinner;
     Button button_menu;
 
     private String TAG = "Main activity :";
@@ -37,37 +39,24 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mainContext = this;
 
-
-        /*
-        button_menu = (Button) findViewById(R.id.option_button);
-        button_menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PopupMenu popupMenu = new PopupMenu(MainActivity.this, button_menu);
-                popupMenu.getMenuInflater().inflate(R.menu.main_menu, popupMenu.getMenu());
-
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        Toast.makeText(MainActivity.this, "" + item.getTitle(), Toast.LENGTH_SHORT).show();
-                    return true;
-                    }
-                });
-
-                popupMenu.show();
-            }
-        });
-        */
-
-
-
-
         findViewById(R.id.mainLoading).setAlpha(1);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
+        new URLRefs().getAllCocktailNames();    //update the total cocktail list
+
         setButtonActions();
-        startCocktailAPIreading();
+
+        if (NetworkConnection.getInstance(this).isAvailable())
+            startCocktailAPIreading();
+        else {
+            //TODO : if cocktails already saved, pass with a warning
+            //TODO : else display a connection error
+            RelativeLayout RL = findViewById(R.id.mainLoading);
+            RL.setVisibility(View.GONE);
+            RL.findViewById(R.id.mainLoading).setAlpha(0);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        }
     }
 
     @Override
@@ -101,11 +90,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-    private void startCocktailAPIreading(){
+    private void startCocktailAPIreading() {
         MainCocktailLoaderIntent.startActionGetCocktail(this);
         IntentFilter intentFilter = new IntentFilter(COCKTAILS_UPDATE);
-        LocalBroadcastManager.getInstance(this).registerReceiver(new onCocktailAPIUpdate(),intentFilter);
+        LocalBroadcastManager.getInstance(this).registerReceiver(new onCocktailAPIUpdate(), intentFilter);
     }
 
     public class onCocktailAPIUpdate extends BroadcastReceiver {
@@ -122,20 +110,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void setButtonActions(){
+    private void setButtonActions() {
         Button displayCocktailList = findViewById(R.id.CocktailList);
         displayCocktailList.setActivated(false);
         Button pickRandomCocktail = findViewById(R.id.Random);
         Button favoritedCocktails = findViewById(R.id.Favorite);
 
 
-
         displayCocktailList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG,"display cocktail list pressed");
+                Log.i(TAG, "display cocktail list pressed");
                 Intent cocktailListDisplay = new Intent(mainContext, CocktailDisplayActivity.class);
-                cocktailListDisplay.putExtra( "EXTRA_isFavorite", "false" );
+                cocktailListDisplay.putExtra("EXTRA_isFavorite", "false");
                 startActivity(cocktailListDisplay);
             }
         });
@@ -143,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         pickRandomCocktail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG,"pick random pressed");
+                Log.i(TAG, "pick random pressed");
                 Intent intent = new Intent(mainContext, RecipeDisplayer.class);
                 intent.putExtra("EXTRA_cocktail_ID", "");
                 startActivity(intent);
@@ -153,21 +140,14 @@ public class MainActivity extends AppCompatActivity {
         favoritedCocktails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG,"see favorited pressed");
+                Log.i(TAG, "see favorited pressed");
                 Intent cocktailListDisplay = new Intent(mainContext, CocktailDisplayActivity.class);
-                cocktailListDisplay.putExtra( "EXTRA_isFavorite", "true" );
+                cocktailListDisplay.putExtra("EXTRA_isFavorite", "true");
                 startActivity(cocktailListDisplay);
             }
         });
 
 
-
-
     }
-
-
-
-
-
 
 }

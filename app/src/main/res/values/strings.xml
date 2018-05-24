@@ -18,5 +18,7 @@
     <string name="language">Language</string>
     <string name="savePref">Save all files</string>
     <string name="rinit">Reset setting</string>
+    <string name="recipe_download_notif_title">Downloading recipes...</string>
+    <string name="recipe_download_notif_title_finished">Download finished !</string>
     <string name="selectLanguage">Choose language</string>
 </resources>

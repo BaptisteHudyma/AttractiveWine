@@ -14,8 +14,11 @@
     <string name="action_filter">Choix des filtres</string>
     <string name="action_share">Partager</string>
     <string name="share_text">Regarde ce merveilleux cocktail !</string>
+    <string name="option">Ouvre le menu des options</string>
     <string name="language">Langue</string>
     <string name="savePref">Sauvegarde des fichiers</string>
     <string name="rinit">Réinitialiser</string>
+    <string name="recipe_download_notif_title">Mise en chache des recettes...</string>
+    <string name="recipe_download_notif_title_finished">Telechargement terminé !</string>
     <string name="selectLanguage">Choose language</string>
 </resources>

@@ -110,7 +110,7 @@ public class CocktailDisplayActivity extends AppCompatActivity implements cockta
         cocktailListView.setLayoutManager(cocktailLayoutManager);
 
         URLRefs urlRefs = new URLRefs();
-        List<DisplayerContainer> cocktailNames = urlRefs.getAllCocktailNames(MainActivity.mainContext);
+        List<DisplayerContainer> cocktailNames = urlRefs.getAllCocktailNames();
 
         if(isFavoriteMenu)
         {

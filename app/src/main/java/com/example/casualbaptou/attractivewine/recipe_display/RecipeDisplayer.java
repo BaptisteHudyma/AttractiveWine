@@ -22,13 +22,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.casualbaptou.attractivewine.NetworkConnection;
 import com.example.casualbaptou.attractivewine.R;
+import com.example.casualbaptou.attractivewine.URLRefs;
+import com.example.casualbaptou.attractivewine.main_menu.MainActivity;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -68,15 +70,16 @@ public class RecipeDisplayer extends AppCompatActivity {
             reroolRandom.setVisibility(View.INVISIBLE);
 
         //TODO: keep track of the actual random cocktail when turning the phone
-
-        startCocktailAPIreading();
+        launchRecipePulling();
 
         reroolRandom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i(TAG,"pick random pressed");
                 findViewById(R.id.loading_panel).setVisibility(View.VISIBLE);
-                startCocktailAPIreading();
+
+                launchRecipePulling();
+
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 RelativeLayout RL = findViewById(R.id.loading_panel);
@@ -86,9 +89,19 @@ public class RecipeDisplayer extends AppCompatActivity {
         });
     }
 
+    private void launchRecipePulling(){
+        if(NetworkConnection.getInstance(this).isAvailable() || URLRefs.cocktailIsSaved( String.valueOf(cocktailID), getApplicationContext())  ) {
+            startCocktailAPIreading();
+        }
+        else
+        {
+            //TODO : display network error
+            Log.e("TEST ", "NO NETWORK CONNECTION");
+        }
+    }
+
     private void updateMessage(int id){
-        message =  getResources().getString(R.string.share_text) + "\nhttps://www.thecocktaildb.com/drink.php?c=";
-        message += id;
+        message =  getResources().getString(R.string.share_text) + "\nhttps://www.thecocktaildb.com/drink.php?c=" + id;
         shareIntent.putExtra( Intent.EXTRA_TEXT, message);
         share_action.setShareIntent(shareIntent);
     }
@@ -152,6 +165,7 @@ public class RecipeDisplayer extends AppCompatActivity {
             TextView lastModified = findViewById(R.id.lastModified);
 
             cocktailRecipe = setRecipeView(recipeFile);
+            URLRefs.saveCocktailJson(recipeFile, String.valueOf( cocktailRecipe.getId() ), MainActivity.mainContext);
             if(cocktailRecipe == null)
                 return;
 
@@ -163,13 +177,14 @@ public class RecipeDisplayer extends AppCompatActivity {
             RL.setAlpha(0);
             RL.setVisibility(View.GONE);
 
-
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
             Picasso.get().load(cocktailRecipe.getImageLink()).into(cocktailthumb);
             lastModified.setText( cocktailRecipe.getLastTimeModified() );
 
             quantities.setText(getFormatIngredients( cocktailRecipe.getIngredients() ));
+
+
 
             updateMessage( cocktailRecipe.getId() );
 
