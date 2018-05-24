@@ -73,7 +73,7 @@ public class DownloadEveryCocktailsIntent extends IntentService {
                 }
 
                 notifBuilder.setContentText("")
-                            .setContentTitle(currentContext.getString(R.string.recipe_download_notif_title))
+                            .setContentTitle(currentContext.getString(R.string.recipe_download_notif_title_finished))
                             .setOngoing(false)
                             .setProgress(100, 100, false);
                 notif = notifBuilder.build();
