@@ -7,6 +7,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.example.casualbaptou.attractivewine.NetworkConnection;
+import com.example.casualbaptou.attractivewine.R;
 import com.example.casualbaptou.attractivewine.URLRefs;
 
 import java.io.BufferedReader;
@@ -22,6 +23,7 @@ public class MainCocktailLoaderIntent extends IntentService {
 
     private static String TAG = "Cocktail lists loader : ";
     private static final String ACTION_get_cocktail_API = "com.example.casualbaptou.attractivewine.action.cocktails";
+    public static boolean isLoaded = true;
 
 
     public MainCocktailLoaderIntent() {
@@ -46,8 +48,7 @@ public class MainCocktailLoaderIntent extends IntentService {
             final String action = intent.getAction();
             if (ACTION_get_cocktail_API.equals(action)) {
 
-                if(!saveCocktailLists() )
-                    Log.e(TAG, "Proram didn't manage to download all cocktails");
+                isLoaded = saveCocktailLists();
                 LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(MainActivity.COCKTAILS_UPDATE));
             }
         }
@@ -56,8 +57,7 @@ public class MainCocktailLoaderIntent extends IntentService {
     private boolean saveCocktailLists() {
         for(int i = 0; i< URLRefs.Categories.length; i++) {
             if(!NetworkConnection.getInstance(this).isAvailable()){
-                //TODO : better implementation
-                return false;
+                return URLRefs.cocktailIsSaved(URLRefs.FileNames[0], this);
             }
             try {
 

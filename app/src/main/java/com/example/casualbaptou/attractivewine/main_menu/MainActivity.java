@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mainContext = this;
+        mainContext = getApplicationContext();
 
         findViewById(R.id.mainLoading).setAlpha(1);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
@@ -49,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (NetworkConnection.getInstance(this).isAvailable())
             startCocktailAPIreading();
-        else {
+        else
+        {
             //TODO : if cocktails already saved, pass with a warning
             //TODO : else display a connection error
             RelativeLayout RL = findViewById(R.id.mainLoading);
@@ -148,6 +149,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void saveAllCocktails(){    //TODO : Alex met cette fonction dans l'option "sauvegarde des fichiers
+        DownloadEveryCocktailsIntent.startActionGetCocktail(this);
     }
 
 }

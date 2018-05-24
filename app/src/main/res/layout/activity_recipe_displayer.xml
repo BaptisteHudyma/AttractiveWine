@@ -109,7 +109,21 @@
                 android:indeterminate="true"/>
         </RelativeLayout>
 
-    </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/no_connection"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:alpha="0"
+            android:background="#FFF">
+            <ImageView
+                android:id="@+id/no_network_image"
+                android:layout_width="100sp"
+                android:layout_height="100sp"
+                android:src="@drawable/no_network"
+                />
+        </RelativeLayout>
 
+    </RelativeLayout>
 
 </ScrollView>

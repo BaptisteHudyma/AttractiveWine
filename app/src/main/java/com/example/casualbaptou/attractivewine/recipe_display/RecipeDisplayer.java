@@ -78,13 +78,14 @@ public class RecipeDisplayer extends AppCompatActivity {
                 Log.i(TAG,"pick random pressed");
                 findViewById(R.id.loading_panel).setVisibility(View.VISIBLE);
 
-                launchRecipePulling();
-
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 RelativeLayout RL = findViewById(R.id.loading_panel);
                 RL.setAlpha(1);
                 RL.setVisibility(View.VISIBLE);
+
+
+                launchRecipePulling();
             }
         });
     }
@@ -95,8 +96,11 @@ public class RecipeDisplayer extends AppCompatActivity {
         }
         else
         {
-            //TODO : display network error
-            Log.e("TEST ", "NO NETWORK CONNECTION");
+            findViewById(R.id.no_connection).setAlpha(1);
+            //getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            RelativeLayout RL = findViewById(R.id.loading_panel);
+            RL.setAlpha(0);
+            RL.setVisibility(View.GONE);
         }
     }
 
@@ -178,6 +182,7 @@ public class RecipeDisplayer extends AppCompatActivity {
             RL.setVisibility(View.GONE);
 
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            findViewById(R.id.no_connection).setAlpha(0);
 
             Picasso.get().load(cocktailRecipe.getImageLink()).into(cocktailthumb);
             lastModified.setText( cocktailRecipe.getLastTimeModified() );

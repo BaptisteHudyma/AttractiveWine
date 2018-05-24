@@ -21,4 +21,5 @@
     <string name="recipe_download_notif_title">Downloading recipes...</string>
     <string name="recipe_download_notif_title_finished">Download finished !</string>
     <string name="selectLanguage">Choose language</string>
+    <string name="no_network">No network</string>
 </resources>
