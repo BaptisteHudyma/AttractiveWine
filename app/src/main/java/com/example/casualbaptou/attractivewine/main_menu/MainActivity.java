@@ -25,7 +25,6 @@ import com.example.casualbaptou.attractivewine.recipe_display.RecipeDisplayer;
 public class MainActivity extends AppCompatActivity {
     public static String COCKTAILS_UPDATE = "com.example.casualbaptou.attractivewine.update.cocktailUpdates";
     public static Context mainContext;
-    Button button_menu;
 
     private String TAG = "Main activity :";
 
@@ -74,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.language:
-                    LanguageSwap.createPopUp();
+                   new LanguageSwap().createPopUp();
                 return true;
             case R.id.savePref:
                     DownloadEveryCocktailsIntent.startActionGetCocktail(this);
@@ -83,12 +82,8 @@ public class MainActivity extends AppCompatActivity {
 
                 return true;
         }
-
-
-
-
-
-
+        finish();
+        startActivity(getIntent());
         return super.onOptionsItemSelected(item);
     }
 
