@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -79,11 +80,10 @@ public class MainActivity extends AppCompatActivity {
                     DownloadEveryCocktailsIntent.startActionGetCocktail(this);
                 return true;
             case R.id.rinit:
-
+                PreferenceManager.getDefaultSharedPreferences(mainContext).
+                        edit().clear().apply();
                 return true;
         }
-        finish();
-        startActivity(getIntent());
         return super.onOptionsItemSelected(item);
     }
 
