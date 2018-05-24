@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mainContext = getApplicationContext();
+        mainContext = this;
 
         findViewById(R.id.mainLoading).setAlpha(1);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
@@ -51,12 +51,18 @@ public class MainActivity extends AppCompatActivity {
             startCocktailAPIreading();
         else
         {
-            //TODO : if cocktails already saved, pass with a warning
-            //TODO : else display a connection error
-            RelativeLayout RL = findViewById(R.id.mainLoading);
-            RL.setVisibility(View.GONE);
-            RL.findViewById(R.id.mainLoading).setAlpha(0);
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            if(!URLRefs.cocktailIsSaved(URLRefs.FileNames[0], this))
+            {
+                findViewById(R.id.no_connection).setAlpha(1);
+
+            }
+            else
+            {
+                RelativeLayout RL = findViewById(R.id.mainLoading);
+                RL.setVisibility(View.GONE);
+                RL.findViewById(R.id.mainLoading).setAlpha(0);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            }
         }
     }
 
@@ -74,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                     LanguageSwap.createPopUp();
                 return true;
             case R.id.savePref:
-
+                    DownloadEveryCocktailsIntent.startActionGetCocktail(this);
                 return true;
             case R.id.rinit:
 
@@ -102,6 +108,11 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             Button displayCocktailList = findViewById(R.id.CocktailList);
             displayCocktailList.setActivated(true);
+
+            if(!MainCocktailLoaderIntent.isLoaded){
+                findViewById(R.id.no_connection).setAlpha(1);
+                return;
+            }
 
             RelativeLayout RL = findViewById(R.id.mainLoading);
             RL.setVisibility(View.GONE);
@@ -149,10 +160,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-    }
-
-    private void saveAllCocktails(){    //TODO : Alex met cette fonction dans l'option "sauvegarde des fichiers
-        DownloadEveryCocktailsIntent.startActionGetCocktail(this);
     }
 
 }
