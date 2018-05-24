@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="optionMenu">
+        <item>Langue</item>
+        <item>Sauvegarde des fichiers</item>
+        <item>Réinitialisation</item>
+    </string-array>
+
+    <string-array name="language">
+        <item>Francais</item>
+        <item>Anglais</item>
+    </string-array>
+
+</resources>

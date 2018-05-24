@@ -13,6 +13,8 @@
     <string name="cocktail_image">Cocktail image</string>
     <string name="action_filter">Choix des filtres</string>
     <string name="action_share">Partager</string>
-    <string name="share_text">Regarde ce merveilleux cocktail</string>
+    <string name="share_text">Regarde ce merveilleux cocktail !</string>
     <string name="language">Langue</string>
+    <string name="savePref">Sauvegarde des fichiers</string>
+    <string name="rinit">Réinitialiser</string>
 </resources>

@@ -9,5 +9,7 @@
         android:id="@+id/option_button"
         android:title="@string/option"
         android:icon="@drawable/cog"
+        app:actionViewClass="android.widget.Spinner"
         app:showAsAction="always"/>
+
 </menu>

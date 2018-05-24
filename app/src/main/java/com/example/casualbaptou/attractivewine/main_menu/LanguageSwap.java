@@ -20,5 +20,6 @@ public class LanguageSwap {
                 break;
         }
         res.updateConfiguration(config, res.getDisplayMetrics());
+        //LanguageHelper.changeLocale(this.getRessources(), “fr”);
     }
 }

@@ -16,4 +16,6 @@
     <string name="share_text">Check out this awesome cocktail !</string>
     <string name="option">Open option menu</string>
     <string name="language">Language</string>
+    <string name="savePref">Save all files</string>
+    <string name="rinit">Reset setting</string>
 </resources>

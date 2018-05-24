@@ -4,26 +4,30 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.ShareActionProvider;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 
-import com.example.casualbaptou.attractivewine.cocktail_display_menu.CocktailDisplayActivity;
 import com.example.casualbaptou.attractivewine.R;
+import com.example.casualbaptou.attractivewine.cocktail_display_menu.CocktailDisplayActivity;
 import com.example.casualbaptou.attractivewine.recipe_display.RecipeDisplayer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     public static String COCKTAILS_UPDATE = "com.example.casualbaptou.attractivewine.update.cocktailUpdates";
     public static Context mainContext;
+    Spinner spinner;
 
     private String TAG = "Main activity :";
 
@@ -41,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
         setButtonActions();
         startCocktailAPIreading();
     }
+
+
 
     private void startCocktailAPIreading(){
         MainCocktailLoaderIntent.startActionGetCocktail(this);
@@ -67,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
         displayCocktailList.setActivated(false);
         Button pickRandomCocktail = findViewById(R.id.Random);
         Button favoritedCocktails = findViewById(R.id.Favorite);
+
+
 
         displayCocktailList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,23 +106,44 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
+
     }
 
-
+private ArrayAdapter<CharSequence> optionAdapter;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.option_selector, menu);
+
+        MenuItem item = menu.findItem(R.id.option_button);
+        spinner = (Spinner) item.getActionView();
+        optionAdapter = ArrayAdapter.createFromResource(this,R.array.optionMenu,android.R.layout.simple_spinner_item);
+        optionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(optionAdapter);
+
+        //if(spinner.){}
 
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        switch(item.getItemId()){
-            case R.id.option_button:
-                //TODO : option menu stuff here
-                break;
-        }
+
+
+
+        if(spinner.getSelectedItem().toString().equals(getString(R.string.language))){
+
+    }
+        if(spinner.getSelectedItem().toString().equals(getString(R.string.rinit))){
+            
+    }
+        if(spinner.getSelectedItem().toString().equals(getString(R.string.savePref))){
+
+    }
+
+
+
         return true;
     }
 
