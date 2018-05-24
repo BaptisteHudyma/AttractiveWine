@@ -17,4 +17,5 @@
     <string name="language">Langue</string>
     <string name="savePref">Sauvegarde des fichiers</string>
     <string name="rinit">Réinitialiser</string>
+    <string name="selectLanguage">Choose language</string>
 </resources>

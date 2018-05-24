@@ -12,22 +12,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.casualbaptou.attractivewine.R;
 import com.example.casualbaptou.attractivewine.cocktail_display_menu.CocktailDisplayActivity;
 import com.example.casualbaptou.attractivewine.recipe_display.RecipeDisplayer;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity {
     public static String COCKTAILS_UPDATE = "com.example.casualbaptou.attractivewine.update.cocktailUpdates";
     public static Context mainContext;
     Spinner spinner;
+    Button button_menu;
 
     private String TAG = "Main activity :";
 
@@ -38,6 +37,31 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mainContext = this;
 
+
+        /*
+        button_menu = (Button) findViewById(R.id.option_button);
+        button_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(MainActivity.this, button_menu);
+                popupMenu.getMenuInflater().inflate(R.menu.main_menu, popupMenu.getMenu());
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        Toast.makeText(MainActivity.this, "" + item.getTitle(), Toast.LENGTH_SHORT).show();
+                    return true;
+                    }
+                });
+
+                popupMenu.show();
+            }
+        });
+        */
+
+
+
+
         findViewById(R.id.mainLoading).setAlpha(1);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
@@ -45,6 +69,36 @@ public class MainActivity extends AppCompatActivity {
         setButtonActions();
         startCocktailAPIreading();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+
+        switch (item.getItemId()){
+            case R.id.language:
+                    LanguageSwap.createPopUp();
+                return true;
+            case R.id.savePref:
+
+                return true;
+            case R.id.rinit:
+
+                return true;
+        }
+
+
+
+
+
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
 
 
@@ -111,41 +165,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-private ArrayAdapter<CharSequence> optionAdapter;
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.option_selector, menu);
-
-        MenuItem item = menu.findItem(R.id.option_button);
-        spinner = (Spinner) item.getActionView();
-        optionAdapter = ArrayAdapter.createFromResource(this,R.array.optionMenu,android.R.layout.simple_spinner_item);
-        optionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(optionAdapter);
-
-        //if(spinner.){}
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
 
 
 
-        if(spinner.getSelectedItem().toString().equals(getString(R.string.language))){
-
-    }
-        if(spinner.getSelectedItem().toString().equals(getString(R.string.rinit))){
-            
-    }
-        if(spinner.getSelectedItem().toString().equals(getString(R.string.savePref))){
-
-    }
-
-
-
-        return true;
-    }
 
 
 }
