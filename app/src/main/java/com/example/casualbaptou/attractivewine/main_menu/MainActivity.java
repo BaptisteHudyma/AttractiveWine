@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mainContext = this;
 
+
         findViewById(R.id.mainLoading).setAlpha(1);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
@@ -75,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.language:
                    new LanguageSwap().createPopUp();
+
                 return true;
             case R.id.savePref:
                     DownloadEveryCocktailsIntent.startActionGetCocktail(this);

@@ -1,3 +1,8 @@
+
+
+
+
+
 <resources>
 
     <!-- Base application theme. -->
@@ -6,6 +11,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="test" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/rose</item>
+        <item name="colorPrimaryDark">@color/jaune</item>
+        <item name="colorAccent">@color/black</item>
     </style>
 
 </resources>

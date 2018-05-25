@@ -1,5 +1,6 @@
 package com.example.casualbaptou.attractivewine.main_menu;
 
+import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -61,5 +62,6 @@ public class LanguageSwap {
 
         builder.setItems(language, dialogClickListener);
         builder.show();
+
     }
 }
