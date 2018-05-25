@@ -39,7 +39,7 @@ public class NetworkConnection {
         return connected;
     }
 
-    public boolean isWifi() {
+    public  boolean isWifi() {
         if(connectivityManager == null)
             return false;
         NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();

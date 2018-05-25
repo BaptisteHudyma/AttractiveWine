@@ -73,13 +73,28 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
 
+
+
         switch (item.getItemId()){
             case R.id.language:
                    new LanguageSwap().createPopUp();
 
                 return true;
             case R.id.savePref:
-                    DownloadEveryCocktailsIntent.startActionGetCocktail(this);
+                if(!NetworkConnection.getInstance(this).isWifi()) {
+                    Pop_up pop = new Pop_up();
+                    if(pop.createPopUp()) {
+                        DownloadEveryCocktailsIntent.startActionGetCocktail(this);
+                        return true;
+                    }
+                    else {
+                        return true;
+                    }
+                }
+
+                DownloadEveryCocktailsIntent.startActionGetCocktail(this);
+
+
                 return true;
             case R.id.rinit:
                 PreferenceManager.getDefaultSharedPreferences(mainContext).

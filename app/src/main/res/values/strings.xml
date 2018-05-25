@@ -22,4 +22,5 @@
     <string name="recipe_download_notif_title_finished">Download finished !</string>
     <string name="selectLanguage">Choose language</string>
     <string name="no_network">No network</string>
+    <string name="alert_massiv_dowload">This is a large file, continue ?</string>
 </resources>
