@@ -12,9 +12,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.example.casualbaptou.attractivewine.DownloadEveryCocktailsIntent;
 import com.example.casualbaptou.attractivewine.NetworkConnection;
@@ -64,11 +66,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
@@ -79,11 +86,13 @@ public class MainActivity extends AppCompatActivity {
             case R.id.language:
                    new LanguageSwap().createPopUp();
 
+
                 return true;
             case R.id.savePref:
                 if(!NetworkConnection.getInstance(this).isWifi()) {
                     Pop_up pop = new Pop_up();
                     if(pop.createPopUp()) {
+                        Toast.makeText(getApplicationContext(),R.string.start_dl,Toast.LENGTH_SHORT).show();
                         DownloadEveryCocktailsIntent.startActionGetCocktail(this);
                         return true;
                     }
@@ -91,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 }
+                Toast.makeText(getApplicationContext(),R.string.start_dl,Toast.LENGTH_SHORT).show();
 
                 DownloadEveryCocktailsIntent.startActionGetCocktail(this);
 
@@ -101,7 +111,10 @@ public class MainActivity extends AppCompatActivity {
                         edit().clear().apply();
                 return true;
         }
+
+
         return super.onOptionsItemSelected(item);
+
     }
 
 

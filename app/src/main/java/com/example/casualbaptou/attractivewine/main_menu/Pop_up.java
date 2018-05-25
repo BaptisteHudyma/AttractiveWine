@@ -7,7 +7,7 @@ import android.util.Log;
 import com.example.casualbaptou.attractivewine.R;
 
 public class Pop_up {
-    boolean test;
+    boolean test=true;
     public boolean createPopUp(){
 
 
