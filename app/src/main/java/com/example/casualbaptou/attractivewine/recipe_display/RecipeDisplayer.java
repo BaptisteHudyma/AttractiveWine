@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 public class RecipeDisplayer extends AppCompatActivity {
@@ -64,8 +65,13 @@ public class RecipeDisplayer extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
         Button reroolRandom = findViewById(R.id.rerollButton);
-        if(cocktailID.length()<1)
+        if(cocktailID.length()<1) {
             reroolRandom.setVisibility(View.VISIBLE);
+            if(!NetworkConnection.getInstance(this).isAvailable()){
+                int indice = ThreadLocalRandom.current().nextInt(0, URLRefs.allCocktails.size());
+                cocktailID = URLRefs.allCocktails.get(indice).getID();
+            }
+        }
         else
             reroolRandom.setVisibility(View.INVISIBLE);
 
@@ -75,6 +81,11 @@ public class RecipeDisplayer extends AppCompatActivity {
         reroolRandom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                cocktailID = "";
+                if(!NetworkConnection.getInstance(getApplicationContext()).isAvailable()){
+                    int indice = ThreadLocalRandom.current().nextInt(0, URLRefs.allCocktails.size());
+                    cocktailID = URLRefs.allCocktails.get(indice).getID();
+                }
                 Log.i(TAG,"pick random pressed");
                 findViewById(R.id.loading_panel).setVisibility(View.VISIBLE);
 

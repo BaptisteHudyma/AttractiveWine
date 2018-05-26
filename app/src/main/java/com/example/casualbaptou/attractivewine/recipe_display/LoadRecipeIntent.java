@@ -27,6 +27,7 @@ public class LoadRecipeIntent extends IntentService {
     public static void startRecipePulling(Context context){
         try{
             ID = RecipeDisplayer.cocktailID;
+
             Intent intent = new Intent(context, LoadRecipeIntent.class);
             intent.setAction(ACTION_get_cocktail_API);
             context.startService(intent);

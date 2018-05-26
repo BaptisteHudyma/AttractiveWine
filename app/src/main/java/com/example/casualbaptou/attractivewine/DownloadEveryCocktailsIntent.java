@@ -29,6 +29,9 @@ public class DownloadEveryCocktailsIntent extends IntentService {
 
     public static void startActionGetCocktail(Context context) {
         try{
+            if( !NetworkConnection.getInstance(context).isAvailable())
+                return;
+
             Intent intent = new Intent(context, DownloadEveryCocktailsIntent.class);
             intent.setAction(ACTION_download_all);
             context.startService(intent);
@@ -69,6 +72,7 @@ public class DownloadEveryCocktailsIntent extends IntentService {
                     else
                     {
                         Log.e("Downloader : ", " Error while downloading " + cocktail.getCocktailName());
+                        return;
                     }
                 }
 

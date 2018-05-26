@@ -1,18 +1,22 @@
 package com.example.casualbaptou.attractivewine.main_menu;
 
+import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -24,6 +28,8 @@ import com.example.casualbaptou.attractivewine.R;
 import com.example.casualbaptou.attractivewine.URLRefs;
 import com.example.casualbaptou.attractivewine.cocktail_display_menu.CocktailDisplayActivity;
 import com.example.casualbaptou.attractivewine.recipe_display.RecipeDisplayer;
+
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     public static String COCKTAILS_UPDATE = "com.example.casualbaptou.attractivewine.update.cocktailUpdates";
@@ -84,27 +90,22 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.language:
-                   new LanguageSwap().createPopUp();
-
-
+                   createPopUp();
                 return true;
             case R.id.savePref:
-                if(!NetworkConnection.getInstance(this).isWifi()) {
-                    Pop_up pop = new Pop_up();
-                    if(pop.createPopUp()) {
-                        Toast.makeText(getApplicationContext(),R.string.start_dl,Toast.LENGTH_SHORT).show();
-                        DownloadEveryCocktailsIntent.startActionGetCocktail(this);
-                        return true;
-                    }
-                    else {
-                        return true;
-                    }
+                if(!NetworkConnection.getInstance(this).isAvailable())
+                {
+                    Toast.makeText(getApplicationContext(),R.string.no_network,Toast.LENGTH_SHORT).show();
+                    return false;
                 }
-                Toast.makeText(getApplicationContext(),R.string.start_dl,Toast.LENGTH_SHORT).show();
-
-                DownloadEveryCocktailsIntent.startActionGetCocktail(this);
-
-
+                if(!NetworkConnection.getInstance(this).isWifi()) {
+                    return new Pop_up().createPopUp();
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(),R.string.start_dl,Toast.LENGTH_SHORT).show();
+                    DownloadEveryCocktailsIntent.startActionGetCocktail(this);
+                }
                 return true;
             case R.id.rinit:
                 PreferenceManager.getDefaultSharedPreferences(mainContext).
@@ -182,6 +183,49 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        Log.e("         ", "channnnnge");
+        recreate();
+    }
+
+    public void createPopUp(){
+
+        String []language = {"Francais", "Anglais"};
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.mainContext);
+        builder.setTitle(MainActivity.mainContext.getString(R.string.selectLanguage));
+
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Resources res = MainActivity.mainContext.getResources();
+                Configuration config = res.getConfiguration();
+                switch(which){
+                    case 0:
+                        //changeLanguage(MainActivity.mainContext.getResources(),"fr");
+                        config.setLocale(Locale.FRANCE);
+                        res.updateConfiguration(config, res.getDisplayMetrics());
+                        onConfigurationChanged(config);
+                        break;
+                    case 1:
+                        config.setLocale(Locale.ENGLISH);
+                        res.updateConfiguration(config, res.getDisplayMetrics());
+                        onConfigurationChanged(config);
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        };
+
+        builder.setItems(language, dialogClickListener);
+        builder.show();
     }
 
 }

@@ -43,6 +43,9 @@ public class NetworkConnection {
         if(connectivityManager == null)
             return false;
         NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
+
+        if(netInfo ==null)
+            return false;
         String connecName = netInfo.getTypeName();
 
         return connecName!=null && "WIFI".equalsIgnoreCase( connecName );
@@ -52,6 +55,9 @@ public class NetworkConnection {
         if(connectivityManager == null)
             return false;
         NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
+
+        if(netInfo ==null)
+            return false;
         String connecName = netInfo.getTypeName();
 
         return connecName!=null && "MOBILE".equalsIgnoreCase( connecName );

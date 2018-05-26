@@ -5,8 +5,6 @@ import android.app.Application;
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
-import java.net.URL;
-
 public class PicassoImageLoader extends Application {
 
     @Override
